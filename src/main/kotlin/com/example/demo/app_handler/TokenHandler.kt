@@ -1,7 +1,7 @@
 package com.example.demo.app_handler
 
 import com.example.demo.app_service.auth.AuthService
-import com.example.demo.app_service.token.TokenParam
+import com.example.demo.domain.token.TokenParam
 import com.example.demo.app_service.token.TokenService
 import com.example.demo.domain.token.TokenDto
 import kotlinx.coroutines.reactor.awaitSingleOrNull

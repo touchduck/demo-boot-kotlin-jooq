@@ -1,12 +1,11 @@
 package com.example.demo.app_service.memo
 
 import com.example.demo.app_service.user.UserService
+import com.example.demo.domain.memo.MemoParam
 import com.example.demo.domain.memo.MemoRepository
-import com.example.demo.infra.hawaii.tables.Memos
 import com.example.demo.infra.hawaii.tables.records.MemosRecord
 import com.example.demo.util.Pagination
 import com.example.demo.util.PaginationParam
-import com.example.demo.util.TimeUtil
 import kotlinx.coroutines.reactor.awaitSingle
 import kotlinx.coroutines.reactor.awaitSingleOrNull
 import org.jooq.DSLContext
@@ -28,19 +27,12 @@ class MemoServiceImpl(
 
     // メモーの作成
     override suspend fun create(userId: UUID, memoParam: MemoParam): Mono<MemosRecord> {
+        memoRepository.create(userId, memoParam).awaitSingleOrNull()
+            ?.let {
+                return it.toMono()
+            }
 
-        val now = TimeUtil.getDateTimeNow()
-        val memo = dsl.insertInto(Memos.MEMOS)
-            .set(Memos.MEMOS.ID, UUID.randomUUID())
-            .set(Memos.MEMOS.USER_ID, userId)
-            .set(Memos.MEMOS.TITLE, memoParam.title)
-            .set(Memos.MEMOS.BODY, memoParam.body)
-            .set(Memos.MEMOS.CREATED_AT, now)
-            .set(Memos.MEMOS.UPDATED_AT, now)
-            .returning()
-            .fetchOne()
-
-        return memo.toMono()
+        return Mono.empty()
     }
 
     // メモーの一覧

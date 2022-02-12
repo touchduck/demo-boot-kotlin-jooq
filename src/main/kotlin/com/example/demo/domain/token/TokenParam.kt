@@ -1,4 +1,4 @@
-package com.example.demo.app_service.token
+package com.example.demo.domain.token
 
 import org.valiktor.functions.hasSize
 import org.valiktor.functions.isEmail

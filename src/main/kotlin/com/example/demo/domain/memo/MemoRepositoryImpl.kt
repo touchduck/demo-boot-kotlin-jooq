@@ -16,6 +16,23 @@ class MemoRepositoryImpl(
     private val dsl: DSLContext,
 ) : MemoRepository {
 
+    override fun create(userId: UUID, memoParam: MemoParam): Mono<MemosRecord> {
+
+        val now = TimeUtil.getDateTimeNow()
+
+        val memo = dsl.insertInto(Memos.MEMOS)
+            .set(Memos.MEMOS.ID, UUID.randomUUID())
+            .set(Memos.MEMOS.USER_ID, userId)
+            .set(Memos.MEMOS.TITLE, memoParam.title)
+            .set(Memos.MEMOS.BODY, memoParam.body)
+            .set(Memos.MEMOS.CREATED_AT, now)
+            .set(Memos.MEMOS.UPDATED_AT, now)
+            .returning()
+            .fetchOne()
+
+        return memo.toMono()
+    }
+
     override fun findAll(userId: UUID): Mono<List<MemosRecord>> {
 
         val ret = dsl.selectFrom(Memos.MEMOS)

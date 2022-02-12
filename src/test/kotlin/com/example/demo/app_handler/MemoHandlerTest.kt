@@ -1,7 +1,7 @@
 package com.example.demo.app_handler
 
 import com.example.demo.SpringWebFluxTest
-import com.example.demo.app_service.memo.MemoParam
+import com.example.demo.domain.memo.MemoParam
 import com.example.demo.domain.memo.MemoDto
 import com.example.demo.util.AuthUtil
 import com.example.demo.util.PagingDto

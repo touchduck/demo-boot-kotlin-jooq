@@ -1,6 +1,9 @@
 package com.example.demo.app_service.auth
 
 import com.example.demo.app_service.user.UserService
+import com.example.demo.domain.auth.ChangePasswordParam
+import com.example.demo.domain.auth.SignUpParam
+import com.example.demo.domain.auth.UserSettingParam
 import com.example.demo.domain.user.UserRepository
 import com.example.demo.infra.hawaii.tables.Users
 import com.example.demo.infra.hawaii.tables.records.UsersRecord

@@ -1,5 +1,6 @@
 package com.example.demo.app_service.user
 
+import com.example.demo.domain.user.UserParam
 import com.example.demo.domain.user.UserRepository
 import com.example.demo.infra.hawaii.tables.Users
 import com.example.demo.infra.hawaii.tables.records.UsersRecord

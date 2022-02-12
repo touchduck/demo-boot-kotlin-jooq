@@ -7,6 +7,8 @@ import java.util.*
 
 interface MemoRepository {
 
+    fun create(userId: UUID, memoParam: MemoParam): Mono<MemosRecord>
+
     fun findAll(userId: UUID): Mono<List<MemosRecord>>
 
     fun pagination(userId: UUID, size: Int, offset: Long): Mono<Pagination<MemosRecord>>

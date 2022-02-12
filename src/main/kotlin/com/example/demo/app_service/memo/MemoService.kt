@@ -1,5 +1,6 @@
 package com.example.demo.app_service.memo
 
+import com.example.demo.domain.memo.MemoParam
 import com.example.demo.infra.hawaii.tables.records.MemosRecord
 import com.example.demo.util.Pagination
 import com.example.demo.util.PaginationParam

@@ -1,8 +1,8 @@
 package com.example.demo.app_handler
 
 import com.example.demo.SpringWebFluxTest
-import com.example.demo.app_service.auth.SignUpParam
-import com.example.demo.app_service.token.TokenParam
+import com.example.demo.domain.auth.SignUpParam
+import com.example.demo.domain.token.TokenParam
 import com.example.demo.util.AuthUtil
 import org.jooq.DSLContext
 import org.junit.jupiter.api.*
