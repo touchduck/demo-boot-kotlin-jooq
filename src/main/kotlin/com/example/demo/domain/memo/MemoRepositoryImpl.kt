@@ -37,7 +37,8 @@ class MemoRepositoryImpl(
 
         val ret = dsl.selectFrom(Memos.MEMOS)
             .where(Memos.MEMOS.DELETED_AT.isNull)
-            .orderBy(Memos.MEMOS.CREATED_AT.desc()).fetch()
+            .orderBy(Memos.MEMOS.CREATED_AT.desc())
+            .fetch()
 
         return ret.toMono()
     }
@@ -66,7 +67,8 @@ class MemoRepositoryImpl(
             .where(Memos.MEMOS.DELETED_AT.isNull)
             .and(Memos.MEMOS.ID.eq(memoId))
             .and(Memos.MEMOS.USER_ID.eq(userId))
-            .orderBy(Memos.MEMOS.CREATED_AT.desc()).fetchOne()
+            .orderBy(Memos.MEMOS.CREATED_AT.desc())
+            .fetchOne()
 
         return ret.toMono()
     }

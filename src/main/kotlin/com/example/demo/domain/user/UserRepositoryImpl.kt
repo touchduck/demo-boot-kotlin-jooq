@@ -16,9 +16,12 @@ class UserRepositoryImpl(
 ) : UserRepository {
 
     override fun findAll(userId: UUID): Mono<List<UsersRecord>> {
+
         val ret = dsl.selectFrom(Users.USERS)
             .where(Users.USERS.DELETED_AT.isNull)
-            .orderBy(Users.USERS.CREATED_AT.desc()).fetch()
+            .orderBy(Users.USERS.CREATED_AT.desc())
+            .fetch()
+
         return ret.toMono()
     }
 
@@ -39,18 +42,24 @@ class UserRepositoryImpl(
     }
 
     override fun findById(userId: UUID): Mono<UsersRecord> {
+
         val ret = dsl.selectFrom(Users.USERS)
             .where(Users.USERS.DELETED_AT.isNull)
             .and(Users.USERS.ID.eq(userId))
-            .orderBy(Users.USERS.CREATED_AT.desc()).fetchOne()
+            .orderBy(Users.USERS.CREATED_AT.desc())
+            .fetchOne()
+
         return ret.toMono()
     }
 
     override fun findByEmail(email: String): Mono<UsersRecord> {
+
         val ret = dsl.selectFrom(Users.USERS)
             .where(Users.USERS.DELETED_AT.isNull)
             .and(Users.USERS.USERNAME.eq(email))
-            .orderBy(Users.USERS.CREATED_AT.desc()).fetchOne()
+            .orderBy(Users.USERS.CREATED_AT.desc())
+            .fetchOne()
+
         return ret.toMono()
     }
 
@@ -59,7 +68,9 @@ class UserRepositoryImpl(
         val ret = dsl.deleteFrom(Users.USERS)
             .where(Users.USERS.DELETED_AT.isNull)
             .and(Users.USERS.ID.eq(userId))
-            .orderBy(Users.USERS.CREATED_AT.desc()).execute()
+            .orderBy(Users.USERS.CREATED_AT.desc())
+            .execute()
+
         return ret.toMono()
 
     }
