@@ -1,6 +1,5 @@
 package com.example.demo.app_service.memo
 
-import com.example.demo.app_service.user.UserService
 import com.example.demo.domain.memo.MemoParam
 import com.example.demo.domain.memo.MemoRepository
 import com.example.demo.infra.hawaii.tables.records.MemosRecord
@@ -8,7 +7,6 @@ import com.example.demo.util.Pagination
 import com.example.demo.util.PaginationParam
 import kotlinx.coroutines.reactor.awaitSingle
 import kotlinx.coroutines.reactor.awaitSingleOrNull
-import org.jooq.DSLContext
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -19,14 +17,13 @@ import java.util.*
 @Transactional
 @Service
 class MemoServiceImpl(
-    private val dsl: DSLContext,
-    private val userService: UserService,
     private val memoRepository: MemoRepository,
 ) : MemoService {
     private val log = LoggerFactory.getLogger(javaClass)
 
     // メモーの作成
     override suspend fun create(userId: UUID, memoParam: MemoParam): Mono<MemosRecord> {
+
         memoRepository.create(userId, memoParam).awaitSingleOrNull()
             ?.let {
                 return it.toMono()
@@ -58,13 +55,12 @@ class MemoServiceImpl(
     // メモーの更新
     override suspend fun update(userId: UUID, memoId: UUID, memoParam: MemoParam): Mono<MemosRecord> {
 
-        val memo = memoRepository.findById(userId, memoId).awaitSingleOrNull() ?: return Mono.empty()
+        memoRepository.update(userId, memoId, memoParam).toMono().awaitSingleOrNull()
+            ?.let {
+                return it.toMono()
+            }
 
-        memo.title = memoParam.title
-        memo.body = memoParam.body
-
-        memoRepository.update(userId, memoId, memo).toMono().awaitSingle()
-        return memo.toMono()
+        return Mono.empty()
     }
 
     // メモーの削除

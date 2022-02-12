@@ -73,18 +73,18 @@ class MemoRepositoryImpl(
         return ret.toMono()
     }
 
-    override fun update(userId: UUID, memoId: UUID, memosRecord: MemosRecord): Mono<Int> {
+    override fun update(userId: UUID, memoId: UUID, memoParam: MemoParam): Mono<MemosRecord> {
 
         val now = TimeUtil.getDateTimeNow()
 
         val ret = dsl.update(Memos.MEMOS)
-            .set(Memos.MEMOS.TITLE, memosRecord.title)
-            .set(Memos.MEMOS.BODY, memosRecord.body)
+            .set(Memos.MEMOS.TITLE, memoParam.title)
+            .set(Memos.MEMOS.BODY, memoParam.body)
             .set(Memos.MEMOS.UPDATED_AT, now)
             .where(Memos.MEMOS.DELETED_AT.isNull)
             .and(Memos.MEMOS.ID.eq(memoId))
             .and(Memos.MEMOS.USER_ID.eq(userId))
-            .execute()
+            .returning().fetchOne()
 
         return ret.toMono()
     }

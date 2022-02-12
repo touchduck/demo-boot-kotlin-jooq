@@ -15,7 +15,7 @@ interface MemoRepository {
 
     fun findById(userId: UUID, memoId: UUID): Mono<MemosRecord>
 
-    fun update(userId: UUID, memoId: UUID, memosRecord: MemosRecord): Mono<Int>
+    fun update(userId: UUID, memoId: UUID, memoParam: MemoParam): Mono<MemosRecord>
 
     fun deleteById(userId: UUID, memoId: UUID): Mono<Int>
 }
