@@ -1,4 +1,4 @@
-package com.example.demo.app_service.auth.param
+package com.example.demo.app_service.auth
 
 import org.valiktor.functions.hasSize
 import org.valiktor.functions.isEmail

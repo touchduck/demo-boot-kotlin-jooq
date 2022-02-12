@@ -1,8 +1,8 @@
 package com.example.demo.config
 
-import com.example.demo.app_service.auth.AuthHandler
-import com.example.demo.app_service.memo.MemoHandler
-import com.example.demo.app_service.token.TokenHandler
+import com.example.demo.app_handler.AuthHandler
+import com.example.demo.app_handler.MemoHandler
+import com.example.demo.app_handler.TokenHandler
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.reactive.function.server.coRouter

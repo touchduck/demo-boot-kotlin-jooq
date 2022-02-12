@@ -1,7 +1,7 @@
 package com.example.demo.app_handler
 
 import com.example.demo.SpringWebFluxTest
-import com.example.demo.app_service.auth.param.SignUpParam
+import com.example.demo.app_service.auth.SignUpParam
 import com.example.demo.app_service.token.TokenParam
 import com.example.demo.util.AuthUtil
 import org.jooq.DSLContext

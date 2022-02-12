@@ -1,8 +1,5 @@
 package com.example.demo.app_service.auth
 
-import com.example.demo.app_service.auth.param.ChangePasswordParam
-import com.example.demo.app_service.auth.param.SignUpParam
-import com.example.demo.app_service.auth.param.UserSettingParam
 import com.example.demo.app_service.user.UserService
 import com.example.demo.domain.user.UserRepository
 import com.example.demo.infra.hawaii.tables.Users

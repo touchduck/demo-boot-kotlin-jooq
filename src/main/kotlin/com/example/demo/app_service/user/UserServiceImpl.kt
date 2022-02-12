@@ -1,6 +1,5 @@
 package com.example.demo.app_service.user
 
-import com.example.demo.app_service.token.TokenService
 import com.example.demo.domain.user.UserRepository
 import com.example.demo.infra.hawaii.tables.Users
 import com.example.demo.infra.hawaii.tables.records.UsersRecord
@@ -11,6 +10,7 @@ import kotlinx.coroutines.reactor.awaitSingle
 import kotlinx.coroutines.reactor.awaitSingleOrNull
 import org.jooq.DSLContext
 import org.slf4j.LoggerFactory
+import org.springframework.security.crypto.factory.PasswordEncoderFactories
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import reactor.core.publisher.Mono
@@ -22,7 +22,6 @@ import java.util.*
 @Service
 class UserServiceImpl(
     private val dsl: DSLContext,
-    private val tokenService: TokenService,
     private val userRepository: UserRepository,
 ) : UserService {
 
@@ -32,7 +31,10 @@ class UserServiceImpl(
 
         val newUer = dsl.insertInto(Users.USERS)
             .set(Users.USERS.USERNAME, userParam.username)
-            .set(Users.USERS.PASSWORD_HASH, "")
+            .set(
+                Users.USERS.PASSWORD_HASH,
+                PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(userParam.password)
+            )
             .returning()
             .fetchOne()
 

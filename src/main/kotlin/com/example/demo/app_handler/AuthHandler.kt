@@ -1,9 +1,11 @@
-package com.example.demo.app_service.auth
+package com.example.demo.app_handler
 
-import com.example.demo.app_service.auth.param.SignUpParam
-import com.example.demo.app_service.auth.param.UserSettingParam
+import com.example.demo.app_service.auth.AuthService
+import com.example.demo.app_service.auth.SignUpParam
+import com.example.demo.app_service.auth.UserSettingParam
 import com.example.demo.app_service.token.TokenService
 import com.example.demo.app_service.util.ErrorDto
+import com.example.demo.domain.auth.AuthDto
 import kotlinx.coroutines.reactor.awaitSingle
 import kotlinx.coroutines.reactor.awaitSingleOrNull
 import org.slf4j.LoggerFactory

@@ -1,4 +1,4 @@
-package com.example.demo.app_service.token
+package com.example.demo.domain.token
 
 data class TokenDto(
     val access_token: String,

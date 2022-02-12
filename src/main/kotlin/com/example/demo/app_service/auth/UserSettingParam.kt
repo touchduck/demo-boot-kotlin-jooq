@@ -1,4 +1,4 @@
-package com.example.demo.app_service.auth.param
+package com.example.demo.app_service.auth
 
 data class UserSettingParam(
     val firstname: String?,
