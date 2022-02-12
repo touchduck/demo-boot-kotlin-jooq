@@ -55,7 +55,7 @@ class MemoServiceImpl(
     // メモーの更新
     override suspend fun update(userId: UUID, memoId: UUID, memoParam: MemoParam): Mono<MemosRecord> {
 
-        memoRepository.update(userId, memoId, memoParam).toMono().awaitSingleOrNull()
+        memoRepository.update(userId, memoId, memoParam).awaitSingleOrNull()
             ?.let {
                 return it.toMono()
             }
