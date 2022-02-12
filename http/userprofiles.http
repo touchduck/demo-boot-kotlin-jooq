@@ -1,0 +1,35 @@
+### 
+# @name createUserProfile
+POST {{base_url}}/api/v1/userprofile
+Authorization: Bearer {{access_token}}
+
+{
+    "first_name": "firstname1",
+    "last_name": "lastname1",
+    "tel": "090",
+    "birthday": "1980-01-01",
+    "sex": 1
+}
+
+###
+# @name getUserProfile
+GET {{base_url}}/api/v1/userprofile
+Authorization: Bearer {{access_token}}
+
+###
+# @name updateUserProfile
+PUT   {{base_url}}/api/v1/userprofile
+Authorization: Bearer {{access_token}}
+
+{
+    "first_name": "あや",
+    "last_name": "こく",
+    "tel": "080",
+    "birthday": "1980-01-02",
+    "sex": 2
+}
+
+###
+# @name deleteUserProfile
+DELETE  {{base_url}}/api/v1/userprofile
+Authorization: Bearer {{access_token}}

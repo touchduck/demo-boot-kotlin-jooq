@@ -1,0 +1,19 @@
+###
+# @name signup
+POST {{base_url}}/api/v1/auth
+
+{
+    "username": "yikyunbum@gmail.com",
+    "password": "starbucks",
+    "nickname": "adminさん"
+}
+
+###
+# @name token
+POST {{base_url}}/api/v1/token
+Authorization: Bearer {{access_token}}
+
+{
+    "username": "yikyunbum@gmail.com",
+    "password": "starbucks"
+}

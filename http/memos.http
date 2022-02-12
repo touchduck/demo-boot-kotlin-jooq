@@ -1,0 +1,36 @@
+### 
+# @name createMemo
+POST {{base_url}}/api/v1/memos
+Authorization: Bearer {{access_token}}
+
+{
+    "title": "kuma memo 1",
+    "body": "kuma test 1"
+}
+
+###
+# @name getMemos
+GET {{base_url}}/api/v1/memos?page=0&size=3
+Authorization: Bearer {{access_token}}
+
+@memo_id = {{getMemos.response.body.$.items[0].id}}
+
+###
+# @name getMemo
+GET {{base_url}}/api/v1/memos/{{memo_id}}
+Authorization: Bearer {{access_token}}
+
+###
+# @name updateMemo
+PUT   {{base_url}}/api/v1/memos/{{memo_id}}
+Authorization: Bearer {{access_token}}
+
+{
+    "title": "あいたいよ",
+    "body": "会いたい。本当に会いたい。愛している"
+}
+
+###
+# @name deleteMemo
+DELETE  {{base_url}}/api/v1/memos/{{memo_id}}
+Authorization: Bearer {{access_token}}
