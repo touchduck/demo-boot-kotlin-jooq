@@ -77,7 +77,11 @@ class UserRepositoryImpl(
     }
 
     override fun update(usersRecord: UsersRecord): UsersRecord? {
-        usersRecord.updatedAt = TimeUtil.getDateTimeNow()
+
+        val now = TimeUtil.getDateTimeNow()
+
+        usersRecord.updatedAt = now
+
         return dsl.update(Users.USERS)
             .set(usersRecord)
             .where(Users.USERS.DELETED_AT.isNull)
