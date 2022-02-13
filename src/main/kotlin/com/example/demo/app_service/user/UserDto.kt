@@ -1,4 +1,4 @@
-package com.example.demo.domain.user
+package com.example.demo.app_service.user
 
 import com.example.demo.infra.hawaii.tables.records.UsersRecord
 import org.springframework.security.core.authority.SimpleGrantedAuthority

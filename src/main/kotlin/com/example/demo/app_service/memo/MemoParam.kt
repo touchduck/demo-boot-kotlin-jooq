@@ -1,4 +1,4 @@
-package com.example.demo.domain.memo
+package com.example.demo.app_service.memo
 
 import org.valiktor.functions.hasSize
 

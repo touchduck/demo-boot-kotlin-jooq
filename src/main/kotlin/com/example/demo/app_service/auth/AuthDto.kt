@@ -1,4 +1,4 @@
-package com.example.demo.domain.auth
+package com.example.demo.app_service.auth
 
 import com.example.demo.infra.hawaii.tables.records.UsersRecord
 import java.time.LocalDateTime

@@ -1,6 +1,5 @@
 package com.example.demo.app_service.user
 
-import com.example.demo.domain.user.UserParam
 import com.example.demo.infra.hawaii.tables.records.UsersRecord
 import com.example.demo.util.Pagination
 import com.example.demo.util.PaginationParam

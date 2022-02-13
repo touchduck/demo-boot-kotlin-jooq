@@ -1,4 +1,4 @@
-package com.example.demo.domain.user
+package com.example.demo.app_service.user
 
 import org.valiktor.functions.hasSize
 import org.valiktor.functions.isEmail

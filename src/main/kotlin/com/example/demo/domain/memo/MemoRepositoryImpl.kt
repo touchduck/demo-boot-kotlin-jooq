@@ -16,21 +16,23 @@ class MemoRepositoryImpl(
     private val dsl: DSLContext,
 ) : MemoRepository {
 
-    override fun create(userId: UUID, memoParam: MemoParam): Mono<MemosRecord> {
+    override fun create(): Mono<MemosRecord> {
+        return dsl.newRecord(Memos.MEMOS).toMono()
+    }
+
+    override fun insert(memosRecord: MemosRecord): Mono<MemosRecord> {
 
         val now = TimeUtil.getDateTimeNow()
 
-        val memo = dsl.insertInto(Memos.MEMOS)
-            .set(Memos.MEMOS.ID, UUID.randomUUID())
-            .set(Memos.MEMOS.USER_ID, userId)
-            .set(Memos.MEMOS.TITLE, memoParam.title)
-            .set(Memos.MEMOS.BODY, memoParam.body)
-            .set(Memos.MEMOS.CREATED_AT, now)
-            .set(Memos.MEMOS.UPDATED_AT, now)
+        memosRecord.createdAt = now
+        memosRecord.updatedAt = now
+
+        val newUser = dsl.insertInto(Memos.MEMOS)
+            .set(memosRecord)
             .returning()
             .fetchOne()
 
-        return memo.toMono()
+        return newUser.toMono()
     }
 
     override fun findAll(userId: UUID): Mono<List<MemosRecord>> {
@@ -73,14 +75,15 @@ class MemoRepositoryImpl(
         return ret.toMono()
     }
 
-    override fun update(userId: UUID, memoId: UUID, memoParam: MemoParam): Mono<MemosRecord> {
+    override fun update(userId: UUID, memoId: UUID, memosRecord: MemosRecord): Mono<MemosRecord> {
 
         val now = TimeUtil.getDateTimeNow()
 
+        memosRecord.createdAt = now
+        memosRecord.updatedAt = now
+
         val ret = dsl.update(Memos.MEMOS)
-            .set(Memos.MEMOS.TITLE, memoParam.title)
-            .set(Memos.MEMOS.BODY, memoParam.body)
-            .set(Memos.MEMOS.UPDATED_AT, now)
+            .set(memosRecord)
             .where(Memos.MEMOS.DELETED_AT.isNull)
             .and(Memos.MEMOS.ID.eq(memoId))
             .and(Memos.MEMOS.USER_ID.eq(userId))

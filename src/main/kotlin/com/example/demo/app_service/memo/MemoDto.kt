@@ -1,4 +1,4 @@
-package com.example.demo.domain.memo
+package com.example.demo.app_service.memo
 
 import com.example.demo.infra.hawaii.tables.records.MemosRecord
 import java.time.LocalDateTime

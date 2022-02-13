@@ -1,4 +1,4 @@
-package com.example.demo.domain.util
+package com.example.demo.app_service.util
 
 import com.example.demo.util.Pagination
 

@@ -15,6 +15,10 @@ class UserRepositoryImpl(
     private val dsl: DSLContext,
 ) : UserRepository {
 
+    override fun create(): Mono<UsersRecord> {
+        return dsl.newRecord(Users.USERS).toMono()
+    }
+
     override fun findAll(userId: UUID): Mono<List<UsersRecord>> {
 
         val ret = dsl.selectFrom(Users.USERS)

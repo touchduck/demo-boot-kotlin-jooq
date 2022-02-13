@@ -1,4 +1,4 @@
-package com.example.demo.domain.util
+package com.example.demo.app_service.util
 
 data class ErrorDto(
     val handler: String,

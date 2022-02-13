@@ -1,8 +1,8 @@
 package com.example.demo.util
 
-import com.example.demo.domain.auth.SignUpParam
-import com.example.demo.domain.token.TokenDto
-import com.example.demo.domain.token.TokenParam
+import com.example.demo.app_service.auth.SignUpParam
+import com.example.demo.app_service.token.TokenDto
+import com.example.demo.app_service.token.TokenParam
 import com.example.demo.infra.hawaii.tables.Memos
 import com.example.demo.infra.hawaii.tables.Users
 import org.jooq.DSLContext

@@ -1,9 +1,9 @@
 package com.example.demo.app_handler
 
 import com.example.demo.app_service.auth.AuthService
+import com.example.demo.app_service.token.TokenDto
+import com.example.demo.app_service.token.TokenParam
 import com.example.demo.app_service.token.TokenService
-import com.example.demo.domain.token.TokenDto
-import com.example.demo.domain.token.TokenParam
 import kotlinx.coroutines.reactor.awaitSingleOrNull
 import org.slf4j.LoggerFactory
 import org.springframework.http.MediaType

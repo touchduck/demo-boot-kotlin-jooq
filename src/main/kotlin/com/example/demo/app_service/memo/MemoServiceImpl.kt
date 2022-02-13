@@ -1,6 +1,5 @@
 package com.example.demo.app_service.memo
 
-import com.example.demo.domain.memo.MemoParam
 import com.example.demo.domain.memo.MemoRepository
 import com.example.demo.infra.hawaii.tables.records.MemosRecord
 import com.example.demo.util.Pagination
@@ -24,12 +23,14 @@ class MemoServiceImpl(
     // メモーの作成
     override suspend fun create(userId: UUID, memoParam: MemoParam): Mono<MemosRecord> {
 
-        memoRepository.create(userId, memoParam).awaitSingleOrNull()
-            ?.let {
-                return it.toMono()
-            }
+        val newMemo = memoRepository.create().awaitSingle()
 
-        return Mono.empty()
+        newMemo.id = UUID.randomUUID()
+        newMemo.userId = userId
+        newMemo.title = memoParam.title
+        newMemo.body = memoParam.body
+
+        return memoRepository.insert(newMemo)
     }
 
     // メモーの一覧
@@ -55,7 +56,12 @@ class MemoServiceImpl(
     // メモーの更新
     override suspend fun update(userId: UUID, memoId: UUID, memoParam: MemoParam): Mono<MemosRecord> {
 
-        memoRepository.update(userId, memoId, memoParam).awaitSingleOrNull()
+        val updateMemo = memoRepository.create().awaitSingle()
+
+        updateMemo.title = memoParam.title
+        updateMemo.body = memoParam.body
+
+        memoRepository.update(userId, memoId, updateMemo).awaitSingleOrNull()
             ?.let {
                 return it.toMono()
             }
