@@ -53,7 +53,6 @@ class AuthServiceImpl(
         }
 
         return false
-
     }
 
     override suspend fun isRegisterUser(username: String): Mono<UserRecord> {
