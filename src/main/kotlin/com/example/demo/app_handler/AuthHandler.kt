@@ -12,8 +12,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.server.*
-import org.springframework.web.reactive.function.server.ServerResponse.badRequest
-import org.springframework.web.reactive.function.server.ServerResponse.created
+import org.springframework.web.reactive.function.server.ServerResponse.*
 import java.net.URI
 
 @Component
@@ -58,7 +57,7 @@ class AuthHandler(
 
             authService.update(userId, userParam).awaitSingleOrNull()
 
-            ServerResponse.notFound().buildAndAwait()
+            notFound().buildAndAwait()
 
         } catch (e: Exception) {
             log.error(e.localizedMessage)
