@@ -6,8 +6,6 @@ import com.example.demo.app_service.auth.UserSettingParam
 import com.example.demo.app_service.auth.toAuthDto
 import com.example.demo.app_service.token.TokenService
 import com.example.demo.app_service.util.ErrorDto
-import kotlinx.coroutines.reactor.awaitSingle
-import kotlinx.coroutines.reactor.awaitSingleOrNull
 import org.slf4j.LoggerFactory
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Component
@@ -28,12 +26,12 @@ class AuthHandler(
 
             val signUpParam = request.awaitBody<SignUpParam>().validateObj()
 
-            authService.isRegisterUser(signUpParam.username).awaitSingleOrNull()?.let {
+            authService.isRegisterUser(signUpParam.username)?.let {
                 return badRequest().contentType(MediaType.APPLICATION_JSON)
                     .bodyValueAndAwait(ErrorDto.dataDuplicated("auth"))
             }
 
-            val user = authService.signUp(signUpParam).awaitSingle()
+            val user = authService.signUp(signUpParam)
 
             log.info("sign up user: {}", user.username)
 
@@ -55,7 +53,7 @@ class AuthHandler(
 
             val userParam = request.awaitBody<UserSettingParam>().validateObj()
 
-            authService.update(userId, userParam).awaitSingleOrNull()
+            authService.update(userId, userParam)
 
             notFound().buildAndAwait()
 

@@ -9,8 +9,6 @@ import org.slf4j.LoggerFactory
 import org.springframework.security.crypto.factory.PasswordEncoderFactories
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import reactor.core.publisher.Mono
-import reactor.kotlin.core.publisher.toMono
 import java.util.*
 
 
@@ -23,7 +21,7 @@ class UserServiceImpl(
 
     private val log = LoggerFactory.getLogger(javaClass)
 
-    override suspend fun create(userId: UUID, userParam: UserParam): Mono<UserRecord> {
+    override fun create(userId: UUID, userParam: UserParam): UserRecord? {
 
         val user = modelMapper.map(userParam, UserRecord::class.java)
 
@@ -31,41 +29,41 @@ class UserServiceImpl(
 
         val createdUser = userRepository.save(user)
 
-        return createdUser.toMono()
+        return createdUser
     }
 
-    override suspend fun getList(userId: UUID, paginationParam: PaginationParam): Mono<Pagination<UserRecord>> {
+    override fun getList(userId: UUID, paginationParam: PaginationParam): Pagination<UserRecord> {
 
         val userList = userRepository.findAll(paginationParam.size, paginationParam.offset)
 
-        return userList.toMono()
+        return userList
     }
 
-    override suspend fun getDetail(userId: UUID): Mono<UserRecord> {
+    override fun getDetail(userId: UUID): UserRecord? {
 
         userRepository.findById(userId)?.let {
-            return it.toMono()
+            return it
         }
 
-        return Mono.empty()
+        return null
     }
 
-    override suspend fun update(userId: UUID, userParam: UserParam): Mono<UserRecord> {
+    override fun update(userId: UUID, userParam: UserParam): UserRecord? {
 
         userRepository.findById(userId)?.let {
             it.nickname = userParam.nickname
             userRepository.update(it)?.let { itSub ->
-                return itSub.toMono()
+                return itSub
             }
         }
 
-        return Mono.empty()
+        return null
     }
 
-    override suspend fun delete(userId: UUID): Mono<Int> {
+    override fun delete(userId: UUID): Int {
 
         userRepository.deleteById(userId).let {
-            return it.toMono()
+            return it
         }
     }
 

@@ -4,7 +4,6 @@ import com.example.demo.app_service.auth.AuthService
 import com.example.demo.app_service.token.TokenDto
 import com.example.demo.app_service.token.TokenParam
 import com.example.demo.app_service.token.TokenService
-import kotlinx.coroutines.reactor.awaitSingleOrNull
 import org.slf4j.LoggerFactory
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Component
@@ -24,17 +23,19 @@ class TokenHandler(
 
             val signInDTO = request.awaitBody<TokenParam>().validateObj()
 
-            val user = authService.isRegisterUser(signInDTO.username).awaitSingleOrNull()
-                ?: return notFound().buildAndAwait()
+            authService.isRegisterUser(signInDTO.username)?.let {
 
-            if (!authService.comparePassword(signInDTO.password, user.passwordHash)) {
-                return badRequest().buildAndAwait()
+                if (!authService.comparePassword(signInDTO.password, it.passwordHash)) {
+                    return badRequest().buildAndAwait()
+                }
+
+                val token = tokenService.generateToken(it)
+
+                return ok().contentType(MediaType.APPLICATION_JSON)
+                    .bodyValueAndAwait(TokenDto(token, ""))
             }
 
-            val token = tokenService.generateToken(user)
-
-            ok().contentType(MediaType.APPLICATION_JSON)
-                .bodyValueAndAwait(TokenDto(token, ""))
+            return notFound().buildAndAwait()
 
         } catch (e: Exception) {
             log.error(e.localizedMessage)

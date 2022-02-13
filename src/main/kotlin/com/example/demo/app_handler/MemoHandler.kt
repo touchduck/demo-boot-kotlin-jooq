@@ -7,8 +7,6 @@ import com.example.demo.app_service.token.TokenService
 import com.example.demo.app_service.util.ErrorDto
 import com.example.demo.app_service.util.PaginationDto
 import com.example.demo.util.PaginationParam
-import kotlinx.coroutines.reactor.awaitSingle
-import kotlinx.coroutines.reactor.awaitSingleOrNull
 import org.slf4j.LoggerFactory
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Component
@@ -33,7 +31,7 @@ class MemoHandler(
 
             val memoParam = request.awaitBody<MemoParam>().validateObj()
 
-            memoService.create(userId, memoParam).awaitSingleOrNull()?.let {
+            memoService.create(userId, memoParam)?.let {
                 return created(URI.create("/api/v1/memos/${it.id}")).contentType(MediaType.APPLICATION_JSON)
                     .bodyValueAndAwait(it.toDto())
             }
@@ -54,7 +52,7 @@ class MemoHandler(
 
             val userId = tokenService.getUserId(request)
 
-            val pagination = memoService.getList(userId, PaginationParam(request)).awaitSingle()
+            val pagination = memoService.getList(userId, PaginationParam(request))
 
             val memos = pagination.items.map { it.toDto() }
 
@@ -75,7 +73,7 @@ class MemoHandler(
             val userId = tokenService.getUserId(request)
             val memoId = UUID.fromString(request.pathVariable("id"))
 
-            memoService.getDetail(userId, memoId).awaitSingleOrNull()?.let {
+            memoService.getDetail(userId, memoId)?.let {
                 return ok().contentType(MediaType.APPLICATION_JSON)
                     .bodyValueAndAwait(it.toDto())
             }
@@ -98,7 +96,7 @@ class MemoHandler(
 
             val memoParam = request.awaitBody<MemoParam>().validateObj()
 
-            memoService.update(userId, memoId, memoParam).awaitSingleOrNull()?.let {
+            memoService.update(userId, memoId, memoParam)?.let {
                 return ok().contentType(MediaType.APPLICATION_JSON)
                     .bodyValueAndAwait(it.toDto())
             }
@@ -119,7 +117,7 @@ class MemoHandler(
             val userId = tokenService.getUserId(request)
             val memoId = UUID.fromString(request.pathVariable("id"))
 
-            memoService.delete(userId, memoId).awaitSingleOrNull()?.let {
+            memoService.delete(userId, memoId)?.let {
                 return ok().contentType(MediaType.APPLICATION_JSON).buildAndAwait()
             }
 

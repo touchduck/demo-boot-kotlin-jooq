@@ -1,18 +1,17 @@
 package com.example.demo.app_service.auth
 
 import com.example.demo.infra.hawaii.tables.records.UserRecord
-import reactor.core.publisher.Mono
 import java.util.*
 
 interface AuthService {
 
-    suspend fun signUp(signUpParam: SignUpParam): Mono<UserRecord>
+    fun signUp(signUpParam: SignUpParam): UserRecord
 
-    suspend fun changePassword(userId: UUID, param: ChangePasswordParam): Mono<UserRecord>
+    fun changePassword(userId: UUID, param: ChangePasswordParam): UserRecord?
 
-    suspend fun comparePassword(checkPassword: String, password_hash: String): Boolean
+    fun comparePassword(checkPassword: String, password_hash: String): Boolean
 
-    suspend fun isRegisterUser(username: String): Mono<UserRecord>
+    fun isRegisterUser(username: String): UserRecord?
 
-    suspend fun update(userId: UUID, param: UserSettingParam): Mono<UserRecord>
+    fun update(userId: UUID, param: UserSettingParam): UserRecord?
 }
