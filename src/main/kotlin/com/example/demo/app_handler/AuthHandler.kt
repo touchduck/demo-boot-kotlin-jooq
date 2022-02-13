@@ -55,7 +55,7 @@ class AuthHandler(
 
             val userParam = request.awaitBody<UserSettingParam>().validateObj()
 
-            val updatedUser = authService.update(userId, userParam).awaitSingleOrNull()
+            authService.update(userId, userParam).awaitSingleOrNull()
 
             ServerResponse.notFound().buildAndAwait()
 

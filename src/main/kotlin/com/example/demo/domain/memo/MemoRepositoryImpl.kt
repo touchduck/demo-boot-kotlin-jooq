@@ -43,7 +43,7 @@ class MemoRepositoryImpl(
         return ret.toMono()
     }
 
-    override fun pagination(userId: UUID, size: Int, offset: Long): Mono<Pagination<MemosRecord>> {
+    override fun findAll(userId: UUID, size: Int, offset: Long): Mono<Pagination<MemosRecord>> {
 
         val count = dsl.selectCount()
             .from(Memos.MEMOS)

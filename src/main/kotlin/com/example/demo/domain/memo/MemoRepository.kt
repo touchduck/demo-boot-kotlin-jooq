@@ -11,7 +11,7 @@ interface MemoRepository {
 
     fun findAll(userId: UUID): Mono<List<MemosRecord>>
 
-    fun pagination(userId: UUID, size: Int, offset: Long): Mono<Pagination<MemosRecord>>
+    fun findAll(userId: UUID, size: Int, offset: Long): Mono<Pagination<MemosRecord>>
 
     fun findById(userId: UUID, memoId: UUID): Mono<MemosRecord>
 

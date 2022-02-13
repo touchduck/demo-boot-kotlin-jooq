@@ -39,7 +39,7 @@ class JooqPersistentContextConfig(
         val settings = jooqConfiguration.settings()
         // https://www.jooq.org/doc/3.7/manual/sql-execution/crud-with-updatablerecords/optimistic-locking/
         settings.withExecuteWithOptimisticLocking(true)
-            .withExecuteLogging(true)
+            .withExecuteLogging(false)
 
         jooqConfiguration.set(settings)
         jooqConfiguration.set(connectionProvider())

@@ -35,7 +35,7 @@ class MemoServiceImpl(
     // メモーの一覧
     override suspend fun getList(userId: UUID, paginationParam: PaginationParam): Mono<Pagination<MemosRecord>> {
 
-        memoRepository.pagination(userId, paginationParam.size, paginationParam.offset).awaitSingle()
+        memoRepository.findAll(userId, paginationParam.size, paginationParam.offset).awaitSingle()
             .let {
                 return it.toMono()
             }
