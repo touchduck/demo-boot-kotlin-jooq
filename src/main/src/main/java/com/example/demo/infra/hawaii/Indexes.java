@@ -42,9 +42,9 @@ public class Indexes {
     // -------------------------------------------------------------------------
 
     private static class Indexes0 {
-        public static Index MEMOS_PKEY = Internal.createIndex("memos_pkey", Memos.MEMOS, new OrderField[]{Memos.MEMOS.ID}, true);
+        public static Index MEMOS_PKEY = Internal.createIndex("memos_pkey", Memo.MEMO, new OrderField[]{Memo.MEMO.ID}, true);
         public static Index USER_PROFILES_PKEY = Internal.createIndex("user_profiles_pkey", UserProfiles.USER_PROFILES, new OrderField[]{UserProfiles.USER_PROFILES.ID}, true);
-        public static Index USERS_PKEY = Internal.createIndex("users_pkey", Users.USERS, new OrderField[]{Users.USERS.ID}, true);
-        public static Index USERS_USERNAME_UNIQUE = Internal.createIndex("users_username_unique", Users.USERS, new OrderField[]{Users.USERS.USERNAME}, true);
+        public static Index USERS_PKEY = Internal.createIndex("users_pkey", User.USER, new OrderField[]{User.USER.ID}, true);
+        public static Index USERS_USERNAME_UNIQUE = Internal.createIndex("users_username_unique", User.USER, new OrderField[]{User.USER.USERNAME}, true);
     }
 }

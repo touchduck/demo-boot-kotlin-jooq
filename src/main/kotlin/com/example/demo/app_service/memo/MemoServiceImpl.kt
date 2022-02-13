@@ -1,7 +1,7 @@
 package com.example.demo.app_service.memo
 
 import com.example.demo.domain.memo.MemoRepository
-import com.example.demo.infra.hawaii.tables.records.MemosRecord
+import com.example.demo.infra.hawaii.tables.records.MemoRecord
 import com.example.demo.util.Pagination
 import com.example.demo.util.PaginationParam
 import org.modelmapper.ModelMapper
@@ -22,16 +22,16 @@ class MemoServiceImpl(
     private val log = LoggerFactory.getLogger(javaClass)
 
     // メモーの作成
-    override suspend fun create(userId: UUID, memoParam: MemoParam): Mono<MemosRecord> {
+    override suspend fun create(userId: UUID, memoParam: MemoParam): Mono<MemoRecord> {
 
-        val memo = modelMapper.map(memoParam, MemosRecord::class.java)
+        val memo = modelMapper.map(memoParam, MemoRecord::class.java)
         val createdMemo = memoRepository.save(userId, memo)
 
         return createdMemo.toMono()
     }
 
     // メモーの一覧
-    override suspend fun getList(userId: UUID, paginationParam: PaginationParam): Mono<Pagination<MemosRecord>> {
+    override suspend fun getList(userId: UUID, paginationParam: PaginationParam): Mono<Pagination<MemoRecord>> {
 
         val memoList = memoRepository.findAll(userId, paginationParam.size, paginationParam.offset)
 
@@ -39,7 +39,7 @@ class MemoServiceImpl(
     }
 
     // メモーの詳細
-    override suspend fun getDetail(userId: UUID, memoId: UUID): Mono<MemosRecord> {
+    override suspend fun getDetail(userId: UUID, memoId: UUID): Mono<MemoRecord> {
 
         memoRepository.findById(userId, memoId)?.let {
             return it.toMono()
@@ -49,9 +49,9 @@ class MemoServiceImpl(
     }
 
     // メモーの更新
-    override suspend fun update(userId: UUID, memoId: UUID, memoParam: MemoParam): Mono<MemosRecord> {
+    override suspend fun update(userId: UUID, memoId: UUID, memoParam: MemoParam): Mono<MemoRecord> {
 
-        val memo = modelMapper.map(memoParam, MemosRecord::class.java)
+        val memo = modelMapper.map(memoParam, MemoRecord::class.java)
 
         val updatedMemo = memoRepository.updateById(userId, memoId, memo)
 

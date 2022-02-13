@@ -2,7 +2,7 @@ package com.example.demo.app_service.auth
 
 import com.example.demo.app_service.user.UserService
 import com.example.demo.domain.user.UserRepository
-import com.example.demo.infra.hawaii.tables.records.UsersRecord
+import com.example.demo.infra.hawaii.tables.records.UserRecord
 import kotlinx.coroutines.reactor.awaitSingleOrNull
 import org.modelmapper.ModelMapper
 import org.slf4j.LoggerFactory
@@ -23,9 +23,9 @@ class AuthServiceImpl(
 
     private val log = LoggerFactory.getLogger(javaClass)
 
-    override suspend fun signUp(signUpParam: SignUpParam): Mono<UsersRecord> {
+    override suspend fun signUp(signUpParam: SignUpParam): Mono<UserRecord> {
 
-        val user = modelMapper.map(signUpParam, UsersRecord::class.java)
+        val user = modelMapper.map(signUpParam, UserRecord::class.java)
 
         user.authorities = "ROLE_ADMIN"
         user.passwordHash = PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(signUpParam.password)
@@ -35,7 +35,7 @@ class AuthServiceImpl(
         return createdUser.toMono()
     }
 
-    override suspend fun changePassword(userId: UUID, param: ChangePasswordParam): Mono<UsersRecord> {
+    override suspend fun changePassword(userId: UUID, param: ChangePasswordParam): Mono<UserRecord> {
 
         val user = userService.getDetail(userId).awaitSingleOrNull() ?: return Mono.empty()
 
@@ -56,7 +56,7 @@ class AuthServiceImpl(
 
     }
 
-    override suspend fun isRegisterUser(username: String): Mono<UsersRecord> {
+    override suspend fun isRegisterUser(username: String): Mono<UserRecord> {
 
         userRepository.findUsername(username)?.let {
             return it.toMono()
@@ -65,7 +65,7 @@ class AuthServiceImpl(
         return Mono.empty()
     }
 
-    override suspend fun update(userId: UUID, param: UserSettingParam): Mono<UsersRecord> {
+    override suspend fun update(userId: UUID, param: UserSettingParam): Mono<UserRecord> {
 
         userRepository.findById(userId)?.let {
 

@@ -26,7 +26,7 @@ create table users
     deleted_at             timestamp
 );
 
-alter table users
+alter table "user"
     owner to rockman;
 
 create table user_profiles
@@ -36,7 +36,7 @@ create table user_profiles
             primary key,
     user_id    uuid         not null
         constraint fk_user_profiles_user_id_id
-            references users
+            references "user"
             on update restrict on delete restrict,
     first_name varchar(512) not null,
     last_name  varchar(512) not null,
@@ -48,7 +48,7 @@ create table user_profiles
     deleted_at timestamp
 );
 
-alter table user_profiles
+alter table user_profile
     owner to rockman;
 
 create table memos
@@ -58,7 +58,7 @@ create table memos
             primary key,
     user_id    uuid         not null
         constraint fk_memos_user_id_id
-            references users
+            references "user"
             on update restrict on delete restrict,
     title      varchar(512) not null,
     body       text         not null,
@@ -67,5 +67,5 @@ create table memos
     deleted_at timestamp
 );
 
-alter table memos
+alter table memo
     owner to rockman;

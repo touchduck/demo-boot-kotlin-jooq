@@ -1,6 +1,6 @@
 package com.example.demo.app_service.user
 
-import com.example.demo.infra.hawaii.tables.records.UsersRecord
+import com.example.demo.infra.hawaii.tables.records.UserRecord
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import java.time.Instant
 import java.time.ZoneOffset
@@ -25,7 +25,7 @@ class UserDto(
     val createdAt: Instant
 )
 
-fun UsersRecord.toDto() = UserDto(
+fun UserRecord.toDto() = UserDto(
     id = id,
     username = username,
     passwordHash = passwordHash,

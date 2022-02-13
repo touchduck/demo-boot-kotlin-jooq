@@ -1,7 +1,7 @@
 package com.example.demo.app_service.token
 
 import com.example.demo.domain.user.UserRepository
-import com.example.demo.infra.hawaii.tables.records.UsersRecord
+import com.example.demo.infra.hawaii.tables.records.UserRecord
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.Keys
 import org.springframework.http.HttpHeaders
@@ -33,7 +33,7 @@ class TokenServiceImpl(
         }
     )
 
-    override fun generateToken(user: UsersRecord): String {
+    override fun generateToken(user: UserRecord): String {
 
         val claims = Jwts.claims()
 

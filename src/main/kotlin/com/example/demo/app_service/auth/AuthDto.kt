@@ -1,6 +1,6 @@
 package com.example.demo.app_service.auth
 
-import com.example.demo.infra.hawaii.tables.records.UsersRecord
+import com.example.demo.infra.hawaii.tables.records.UserRecord
 import java.time.LocalDateTime
 
 data class AuthDto(
@@ -12,7 +12,7 @@ data class AuthDto(
     val deletedAt: LocalDateTime?
 )
 
-fun UsersRecord.toAuthDto() = AuthDto(
+fun UserRecord.toAuthDto() = AuthDto(
     id = id.toString(),
     username = username,
     nickname = nickname,

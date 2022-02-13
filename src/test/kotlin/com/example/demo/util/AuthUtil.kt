@@ -3,8 +3,8 @@ package com.example.demo.util
 import com.example.demo.app_service.auth.SignUpParam
 import com.example.demo.app_service.token.TokenDto
 import com.example.demo.app_service.token.TokenParam
-import com.example.demo.infra.hawaii.tables.Memos
-import com.example.demo.infra.hawaii.tables.Users
+import com.example.demo.infra.hawaii.Tables.MEMO
+import com.example.demo.infra.hawaii.Tables.USER
 import org.jooq.DSLContext
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpHeaders
@@ -23,8 +23,8 @@ open class AuthUtil(@Autowired open val client: WebTestClient, @Autowired open v
 
     fun clean() {
 
-        dsl.delete(Memos.MEMOS).execute()
-        dsl.delete(Users.USERS).execute()
+        dsl.delete(MEMO).execute()
+        dsl.delete(USER).execute()
 
         signUp("yikyunbum@gmail.com", "starbucks", "くまさん")
 

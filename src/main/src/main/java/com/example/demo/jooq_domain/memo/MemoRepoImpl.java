@@ -29,9 +29,9 @@ public class MemoRepoImpl implements MemoRepo {
     public Mono<MemoEntity> create(UUID userId, MemoParam memoParam) {
 
         Record1<UUID> memoId =
-                dsl.insertInto(Memos.MEMOS, Memos.MEMOS.ID, Memos.MEMOS.USER_ID, Memos.MEMOS.TITLE, Memos.MEMOS.BODY, Memos.MEMOS.CREATED_AT, Memos.MEMOS.UPDATED_AT)
+                dsl.insertInto(Memo.MEMO, Memo.MEMO.ID, Memo.MEMO.USER_ID, Memo.MEMO.TITLE, Memo.MEMO.BODY, Memo.MEMO.CREATED_AT, Memo.MEMO.UPDATED_AT)
                         .values(UUID.randomUUID(), userId, memoParam.getTitle(), memoParam.getBody(), LocalDateTime.now(), LocalDateTime.now())
-                        .returningResult(Memos.MEMOS.ID)
+                        .returningResult(Memo.MEMO.ID)
                         .fetchOne();
 
         return findById(userId, memoId.value1());
@@ -40,8 +40,8 @@ public class MemoRepoImpl implements MemoRepo {
     @Override
     public Mono<List<MemoEntity>> findAll(UUID userId) {
 
-        List<MemoEntity> memoEntities = dsl.select().from(Memos.MEMOS)
-                .where(Memos.MEMOS.USER_ID.eq(userId))
+        List<MemoEntity> memoEntities = dsl.select().from(Memo.MEMO)
+                .where(Memo.MEMO.USER_ID.eq(userId))
                 .fetchInto(MemoEntity.class);
 
         return Mono.just(memoEntities);
@@ -50,8 +50,8 @@ public class MemoRepoImpl implements MemoRepo {
     @Override
     public Mono<MemoEntity> findById(UUID userId, UUID memoId) {
 
-        MemoEntity memoEntity = dsl.select().from(Memos.MEMOS)
-                .where(Memos.MEMOS.ID.eq(memoId).and(Memos.MEMOS.USER_ID.eq(userId)))
+        MemoEntity memoEntity = dsl.select().from(Memo.MEMO)
+                .where(Memo.MEMO.ID.eq(memoId).and(Memo.MEMO.USER_ID.eq(userId)))
                 .fetchOneInto(MemoEntity.class);
 
         return Mono.justOrEmpty(memoEntity);
@@ -60,10 +60,10 @@ public class MemoRepoImpl implements MemoRepo {
     @Override
     public Mono<MemoEntity> update(UUID userId, UUID memoId, MemoParam memoParam) {
 
-        int ret = dsl.update(Memos.MEMOS)
-                .set(Memos.MEMOS.TITLE, memoParam.getTitle())
-                .set(Memos.MEMOS.BODY, memoParam.getBody())
-                .where(Memos.MEMOS.ID.eq(memoId).and(Memos.MEMOS.USER_ID.eq(userId)))
+        int ret = dsl.update(Memo.MEMO)
+                .set(Memo.MEMO.TITLE, memoParam.getTitle())
+                .set(Memo.MEMO.BODY, memoParam.getBody())
+                .where(Memo.MEMO.ID.eq(memoId).and(Memo.MEMO.USER_ID.eq(userId)))
                 .execute();
 
         if (ret > 0) {
@@ -76,8 +76,8 @@ public class MemoRepoImpl implements MemoRepo {
     @Override
     public Mono<MemoEntity> delete(UUID userId, UUID memoId) {
 
-        int ret = dsl.delete(Memos.MEMOS)
-                .where(Memos.MEMOS.ID.eq(memoId).and(Memos.MEMOS.USER_ID.eq(userId)))
+        int ret = dsl.delete(Memo.MEMO)
+                .where(Memo.MEMO.ID.eq(memoId).and(Memo.MEMO.USER_ID.eq(userId)))
                 .execute();
 
         if (ret > 0) {

@@ -1,6 +1,6 @@
 package com.example.demo.jooq_domain.memo;
 
-import com.example.demo.infra.hawaii.tables.records.MemosRecord;
+import com.example.demo.infra.hawaii.tables.records.MemoRecord;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -21,7 +21,7 @@ public class MemoEntity {
     private LocalDateTime updatedAt;
     private LocalDateTime deletedAt;
 
-    static MemoEntity mapper(MemosRecord data) {
+    static MemoEntity mapper(MemoRecord data) {
         return MemoEntity.builder().id(data.getId())
                 .userId(data.getUserId())
                 .title(data.getTitle())

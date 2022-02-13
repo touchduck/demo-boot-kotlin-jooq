@@ -5,13 +5,13 @@ package com.example.demo.infra.hawaii;
 
 
 import com.example.demo.infra.hawaii.tables.FlywaySchemaHistory;
-import com.example.demo.infra.hawaii.tables.Memos;
-import com.example.demo.infra.hawaii.tables.UserProfiles;
-import com.example.demo.infra.hawaii.tables.Users;
+import com.example.demo.infra.hawaii.tables.Memo;
+import com.example.demo.infra.hawaii.tables.User;
+import com.example.demo.infra.hawaii.tables.UserProfile;
 import com.example.demo.infra.hawaii.tables.records.FlywaySchemaHistoryRecord;
-import com.example.demo.infra.hawaii.tables.records.MemosRecord;
-import com.example.demo.infra.hawaii.tables.records.UserProfilesRecord;
-import com.example.demo.infra.hawaii.tables.records.UsersRecord;
+import com.example.demo.infra.hawaii.tables.records.MemoRecord;
+import com.example.demo.infra.hawaii.tables.records.UserProfileRecord;
+import com.example.demo.infra.hawaii.tables.records.UserRecord;
 
 import javax.annotation.processing.Generated;
 
@@ -44,17 +44,17 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     public static final UniqueKey<FlywaySchemaHistoryRecord> FLYWAY_SCHEMA_HISTORY_PK = UniqueKeys0.FLYWAY_SCHEMA_HISTORY_PK;
-    public static final UniqueKey<MemosRecord> MEMOS_PKEY = UniqueKeys0.MEMOS_PKEY;
-    public static final UniqueKey<UserProfilesRecord> USER_PROFILES_PKEY = UniqueKeys0.USER_PROFILES_PKEY;
-    public static final UniqueKey<UsersRecord> USERS_PKEY = UniqueKeys0.USERS_PKEY;
-    public static final UniqueKey<UsersRecord> USERS_USERNAME_UNIQUE = UniqueKeys0.USERS_USERNAME_UNIQUE;
+    public static final UniqueKey<MemoRecord> MEMOS_PKEY = UniqueKeys0.MEMOS_PKEY;
+    public static final UniqueKey<UserRecord> USERS_PKEY = UniqueKeys0.USERS_PKEY;
+    public static final UniqueKey<UserRecord> USERS_USERNAME_UNIQUE = UniqueKeys0.USERS_USERNAME_UNIQUE;
+    public static final UniqueKey<UserProfileRecord> USER_PROFILES_PKEY = UniqueKeys0.USER_PROFILES_PKEY;
 
     // -------------------------------------------------------------------------
     // FOREIGN KEY definitions
     // -------------------------------------------------------------------------
 
-    public static final ForeignKey<MemosRecord, UsersRecord> MEMOS__FK_MEMOS_USER_ID_ID = ForeignKeys0.MEMOS__FK_MEMOS_USER_ID_ID;
-    public static final ForeignKey<UserProfilesRecord, UsersRecord> USER_PROFILES__FK_USER_PROFILES_USER_ID_ID = ForeignKeys0.USER_PROFILES__FK_USER_PROFILES_USER_ID_ID;
+    public static final ForeignKey<MemoRecord, UserRecord> MEMO__FK_MEMOS_USER_ID_ID = ForeignKeys0.MEMO__FK_MEMOS_USER_ID_ID;
+    public static final ForeignKey<UserProfileRecord, UserRecord> USER_PROFILE__FK_USER_PROFILES_USER_ID_ID = ForeignKeys0.USER_PROFILE__FK_USER_PROFILES_USER_ID_ID;
 
     // -------------------------------------------------------------------------
     // [#1459] distribute members to avoid static initialisers > 64kb
@@ -62,14 +62,14 @@ public class Keys {
 
     private static class UniqueKeys0 {
         public static final UniqueKey<FlywaySchemaHistoryRecord> FLYWAY_SCHEMA_HISTORY_PK = Internal.createUniqueKey(FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY, "flyway_schema_history_pk", FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY.INSTALLED_RANK);
-        public static final UniqueKey<MemosRecord> MEMOS_PKEY = Internal.createUniqueKey(Memos.MEMOS, "memos_pkey", Memos.MEMOS.ID);
-        public static final UniqueKey<UserProfilesRecord> USER_PROFILES_PKEY = Internal.createUniqueKey(UserProfiles.USER_PROFILES, "user_profiles_pkey", UserProfiles.USER_PROFILES.ID);
-        public static final UniqueKey<UsersRecord> USERS_PKEY = Internal.createUniqueKey(Users.USERS, "users_pkey", Users.USERS.ID);
-        public static final UniqueKey<UsersRecord> USERS_USERNAME_UNIQUE = Internal.createUniqueKey(Users.USERS, "users_username_unique", Users.USERS.USERNAME);
+        public static final UniqueKey<MemoRecord> MEMOS_PKEY = Internal.createUniqueKey(Memo.MEMO, "memos_pkey", Memo.MEMO.ID);
+        public static final UniqueKey<UserRecord> USERS_PKEY = Internal.createUniqueKey(User.USER, "users_pkey", User.USER.ID);
+        public static final UniqueKey<UserRecord> USERS_USERNAME_UNIQUE = Internal.createUniqueKey(User.USER, "users_username_unique", User.USER.USERNAME);
+        public static final UniqueKey<UserProfileRecord> USER_PROFILES_PKEY = Internal.createUniqueKey(UserProfile.USER_PROFILE, "user_profiles_pkey", UserProfile.USER_PROFILE.ID);
     }
 
     private static class ForeignKeys0 {
-        public static final ForeignKey<MemosRecord, UsersRecord> MEMOS__FK_MEMOS_USER_ID_ID = Internal.createForeignKey(com.example.demo.infra.hawaii.Keys.USERS_PKEY, Memos.MEMOS, "memos__fk_memos_user_id_id", Memos.MEMOS.USER_ID);
-        public static final ForeignKey<UserProfilesRecord, UsersRecord> USER_PROFILES__FK_USER_PROFILES_USER_ID_ID = Internal.createForeignKey(com.example.demo.infra.hawaii.Keys.USERS_PKEY, UserProfiles.USER_PROFILES, "user_profiles__fk_user_profiles_user_id_id", UserProfiles.USER_PROFILES.USER_ID);
+        public static final ForeignKey<MemoRecord, UserRecord> MEMO__FK_MEMOS_USER_ID_ID = Internal.createForeignKey(com.example.demo.infra.hawaii.Keys.USERS_PKEY, Memo.MEMO, "memo__fk_memos_user_id_id", Memo.MEMO.USER_ID);
+        public static final ForeignKey<UserProfileRecord, UserRecord> USER_PROFILE__FK_USER_PROFILES_USER_ID_ID = Internal.createForeignKey(com.example.demo.infra.hawaii.Keys.USERS_PKEY, UserProfile.USER_PROFILE, "user_profile__fk_user_profiles_user_id_id", UserProfile.USER_PROFILE.USER_ID);
     }
 }

@@ -1,6 +1,6 @@
 package com.example.demo.app_service.memo
 
-import com.example.demo.infra.hawaii.tables.records.MemosRecord
+import com.example.demo.infra.hawaii.tables.records.MemoRecord
 import java.time.LocalDateTime
 
 class MemoDto(
@@ -12,7 +12,7 @@ class MemoDto(
     val deletedAt: LocalDateTime?
 )
 
-fun MemosRecord.toDto() = MemoDto(
+fun MemoRecord.toDto() = MemoDto(
     id = id.toString(),
     title = title,
     body = body,

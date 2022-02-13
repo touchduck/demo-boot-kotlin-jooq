@@ -1,6 +1,6 @@
 package com.example.demo.app_service.token
 
-import com.example.demo.infra.hawaii.tables.records.UsersRecord
+import com.example.demo.infra.hawaii.tables.records.UserRecord
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jws
 import org.springframework.web.reactive.function.server.ServerRequest
@@ -10,7 +10,7 @@ interface TokenService {
 
     fun validateToken(token: String): Optional<Jws<Claims>>
 
-    fun generateToken(user: UsersRecord): String
+    fun generateToken(user: UserRecord): String
 
     fun getToken(serverRequest: ServerRequest): Optional<String>?
 

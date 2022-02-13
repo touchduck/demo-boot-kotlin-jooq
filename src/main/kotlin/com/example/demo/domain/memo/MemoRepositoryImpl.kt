@@ -1,7 +1,7 @@
 package com.example.demo.domain.memo
 
-import com.example.demo.infra.hawaii.tables.Memos
-import com.example.demo.infra.hawaii.tables.records.MemosRecord
+import com.example.demo.infra.hawaii.Tables.MEMO
+import com.example.demo.infra.hawaii.tables.records.MemoRecord
 import com.example.demo.util.Pagination
 import com.example.demo.util.TimeUtil
 import org.jooq.DSLContext
@@ -16,76 +16,76 @@ class MemoRepositoryImpl(
 
     override fun count(userId: UUID): Long {
         return dsl.selectCount()
-            .from(Memos.MEMOS)
-            .where(Memos.MEMOS.DELETED_AT.isNull)
-            .and(Memos.MEMOS.USER_ID.eq(userId))
+            .from(MEMO)
+            .where(MEMO.DELETED_AT.isNull)
+            .and(MEMO.USER_ID.eq(userId))
             .fetchOne().value1().toLong()
     }
 
-    override fun save(userId: UUID, memosRecord: MemosRecord): MemosRecord {
+    override fun save(userId: UUID, memoRecord: MemoRecord): MemoRecord {
 
-        memosRecord.id = UUID.randomUUID()
-        memosRecord.userId = userId
+        memoRecord.id = UUID.randomUUID()
+        memoRecord.userId = userId
 
         val now = TimeUtil.getDateTimeNow()
 
-        memosRecord.createdAt = now
-        memosRecord.updatedAt = now
+        memoRecord.createdAt = now
+        memoRecord.updatedAt = now
 
-        return dsl.insertInto(Memos.MEMOS)
-            .set(memosRecord)
+        return dsl.insertInto(MEMO)
+            .set(memoRecord)
             .returning()
             .fetchOne()
     }
 
-    override fun findAll(userId: UUID): List<MemosRecord> {
-        return dsl.selectFrom(Memos.MEMOS)
-            .where(Memos.MEMOS.DELETED_AT.isNull)
-            .orderBy(Memos.MEMOS.CREATED_AT.desc())
+    override fun findAll(userId: UUID): List<MemoRecord> {
+        return dsl.selectFrom(MEMO)
+            .where(MEMO.DELETED_AT.isNull)
+            .orderBy(MEMO.CREATED_AT.desc())
             .fetch()
     }
 
-    override fun findAll(userId: UUID, size: Int, offset: Long): Pagination<MemosRecord> {
+    override fun findAll(userId: UUID, size: Int, offset: Long): Pagination<MemoRecord> {
 
         val cnt = count(userId)
 
-        val ret = dsl.selectFrom(Memos.MEMOS)
-            .where(Memos.MEMOS.DELETED_AT.isNull)
-            .and(Memos.MEMOS.USER_ID.eq(userId))
-            .orderBy(Memos.MEMOS.CREATED_AT.desc())
+        val ret = dsl.selectFrom(MEMO)
+            .where(MEMO.DELETED_AT.isNull)
+            .and(MEMO.USER_ID.eq(userId))
+            .orderBy(MEMO.CREATED_AT.desc())
             .limit(size).offset(offset)
             .fetch()
 
         return Pagination(size, offset, cnt, ret)
     }
 
-    override fun findById(userId: UUID, memoId: UUID): MemosRecord? {
-        return dsl.selectFrom(Memos.MEMOS)
-            .where(Memos.MEMOS.DELETED_AT.isNull)
-            .and(Memos.MEMOS.ID.eq(memoId))
-            .and(Memos.MEMOS.USER_ID.eq(userId))
-            .orderBy(Memos.MEMOS.CREATED_AT.desc())
+    override fun findById(userId: UUID, memoId: UUID): MemoRecord? {
+        return dsl.selectFrom(MEMO)
+            .where(MEMO.DELETED_AT.isNull)
+            .and(MEMO.ID.eq(memoId))
+            .and(MEMO.USER_ID.eq(userId))
+            .orderBy(MEMO.CREATED_AT.desc())
             .fetchOne()
     }
 
-    override fun updateById(userId: UUID, memoId: UUID, memosRecord: MemosRecord): MemosRecord {
+    override fun updateById(userId: UUID, memoId: UUID, MemoRecord: MemoRecord): MemoRecord {
 
-        memosRecord.updatedAt = TimeUtil.getDateTimeNow()
+        MemoRecord.updatedAt = TimeUtil.getDateTimeNow()
 
-        return dsl.update(Memos.MEMOS)
-            .set(memosRecord)
-            .where(Memos.MEMOS.DELETED_AT.isNull)
-            .and(Memos.MEMOS.ID.eq(memoId))
-            .and(Memos.MEMOS.USER_ID.eq(userId))
+        return dsl.update(MEMO)
+            .set(MemoRecord)
+            .where(MEMO.DELETED_AT.isNull)
+            .and(MEMO.ID.eq(memoId))
+            .and(MEMO.USER_ID.eq(userId))
             .returning().fetchOne()
     }
 
     override fun deleteById(userId: UUID, memoId: UUID): Int {
 
-        return dsl.deleteFrom(Memos.MEMOS)
-            .where(Memos.MEMOS.DELETED_AT.isNull)
-            .and(Memos.MEMOS.ID.eq(memoId))
-            .and(Memos.MEMOS.USER_ID.eq(userId))
+        return dsl.deleteFrom(MEMO)
+            .where(MEMO.DELETED_AT.isNull)
+            .and(MEMO.ID.eq(memoId))
+            .and(MEMO.USER_ID.eq(userId))
             .execute()
     }
 

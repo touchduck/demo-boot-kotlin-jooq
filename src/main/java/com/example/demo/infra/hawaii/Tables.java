@@ -5,9 +5,9 @@ package com.example.demo.infra.hawaii;
 
 
 import com.example.demo.infra.hawaii.tables.FlywaySchemaHistory;
-import com.example.demo.infra.hawaii.tables.Memos;
-import com.example.demo.infra.hawaii.tables.UserProfiles;
-import com.example.demo.infra.hawaii.tables.Users;
+import com.example.demo.infra.hawaii.tables.Memo;
+import com.example.demo.infra.hawaii.tables.User;
+import com.example.demo.infra.hawaii.tables.UserProfile;
 
 import javax.annotation.processing.Generated;
 
@@ -31,17 +31,17 @@ public class Tables {
     public static final FlywaySchemaHistory FLYWAY_SCHEMA_HISTORY = FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY;
 
     /**
-     * The table <code>public.memos</code>.
+     * The table <code>public.memo</code>.
      */
-    public static final Memos MEMOS = Memos.MEMOS;
+    public static final Memo MEMO = Memo.MEMO;
 
     /**
-     * The table <code>public.user_profiles</code>.
+     * The table <code>public.user</code>.
      */
-    public static final UserProfiles USER_PROFILES = UserProfiles.USER_PROFILES;
+    public static final User USER = User.USER;
 
     /**
-     * The table <code>public.users</code>.
+     * The table <code>public.user_profile</code>.
      */
-    public static final Users USERS = Users.USERS;
+    public static final UserProfile USER_PROFILE = UserProfile.USER_PROFILE;
 }

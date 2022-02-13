@@ -1,7 +1,7 @@
 package com.example.demo.app_service.user
 
 import com.example.demo.domain.user.UserRepository
-import com.example.demo.infra.hawaii.tables.records.UsersRecord
+import com.example.demo.infra.hawaii.tables.records.UserRecord
 import com.example.demo.util.Pagination
 import com.example.demo.util.PaginationParam
 import org.modelmapper.ModelMapper
@@ -23,9 +23,9 @@ class UserServiceImpl(
 
     private val log = LoggerFactory.getLogger(javaClass)
 
-    override suspend fun create(userId: UUID, userParam: UserParam): Mono<UsersRecord> {
+    override suspend fun create(userId: UUID, userParam: UserParam): Mono<UserRecord> {
 
-        val user = modelMapper.map(userParam, UsersRecord::class.java)
+        val user = modelMapper.map(userParam, UserRecord::class.java)
 
         user.passwordHash = PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(userParam.password)
 
@@ -34,14 +34,14 @@ class UserServiceImpl(
         return createdUser.toMono()
     }
 
-    override suspend fun getList(userId: UUID, paginationParam: PaginationParam): Mono<Pagination<UsersRecord>> {
+    override suspend fun getList(userId: UUID, paginationParam: PaginationParam): Mono<Pagination<UserRecord>> {
 
         val userList = userRepository.findAll(paginationParam.size, paginationParam.offset)
 
         return userList.toMono()
     }
 
-    override suspend fun getDetail(userId: UUID): Mono<UsersRecord> {
+    override suspend fun getDetail(userId: UUID): Mono<UserRecord> {
 
         userRepository.findById(userId)?.let {
             return it.toMono()
@@ -50,7 +50,7 @@ class UserServiceImpl(
         return Mono.empty()
     }
 
-    override suspend fun update(userId: UUID, userParam: UserParam): Mono<UsersRecord> {
+    override suspend fun update(userId: UUID, userParam: UserParam): Mono<UserRecord> {
 
         userRepository.findById(userId)?.let {
             it.nickname = userParam.nickname

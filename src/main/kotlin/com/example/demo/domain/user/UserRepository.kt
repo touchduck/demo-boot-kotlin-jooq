@@ -1,6 +1,6 @@
 package com.example.demo.domain.user
 
-import com.example.demo.infra.hawaii.tables.records.UsersRecord
+import com.example.demo.infra.hawaii.tables.records.UserRecord
 import com.example.demo.util.Pagination
 import java.util.*
 
@@ -8,17 +8,17 @@ interface UserRepository {
 
     fun count(): Long
 
-    fun save(usersRecord: UsersRecord): UsersRecord
+    fun save(userRecord: UserRecord): UserRecord
 
-    fun findAll(): List<UsersRecord>
+    fun findAll(): List<UserRecord>
 
-    fun findAll(size: Int, offset: Long): Pagination<UsersRecord>
+    fun findAll(size: Int, offset: Long): Pagination<UserRecord>
 
-    fun findById(userId: UUID): UsersRecord?
+    fun findById(userId: UUID): UserRecord?
 
-    fun findUsername(username: String): UsersRecord?
+    fun findUsername(username: String): UserRecord?
 
-    fun update(usersRecord: UsersRecord): UsersRecord?
+    fun update(userRecord: UserRecord): UserRecord?
 
     fun deleteById(userId: UUID): Int
 

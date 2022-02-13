@@ -40,7 +40,7 @@ public class Public extends SchemaImpl {
     /**
      * The table <code>public.memos</code>.
      */
-    public final Memos MEMOS = com.example.demo.infra.hawaii.tables.Memos.MEMOS;
+    public final Memos MEMOS = com.example.demo.infra.hawaii.tables.Memo.MEMO;
 
     /**
      * The table <code>public.user_profiles</code>.
@@ -50,7 +50,7 @@ public class Public extends SchemaImpl {
     /**
      * The table <code>public.users</code>.
      */
-    public final Users USERS = com.example.demo.infra.hawaii.tables.Users.USERS;
+    public final Users USERS = com.example.demo.infra.hawaii.tables.User.USER;
 
     /**
      * No further instances allowed
@@ -74,8 +74,8 @@ public class Public extends SchemaImpl {
 
     private final List<Table<?>> getTables0() {
         return Arrays.<Table<?>>asList(
-                Memos.MEMOS,
+                Memo.MEMO,
                 UserProfiles.USER_PROFILES,
-                Users.USERS);
+                User.USER);
     }
 }

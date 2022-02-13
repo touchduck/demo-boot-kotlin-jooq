@@ -5,9 +5,9 @@ package com.example.demo.infra.hawaii;
 
 
 import com.example.demo.infra.hawaii.tables.FlywaySchemaHistory;
-import com.example.demo.infra.hawaii.tables.Memos;
-import com.example.demo.infra.hawaii.tables.UserProfiles;
-import com.example.demo.infra.hawaii.tables.Users;
+import com.example.demo.infra.hawaii.tables.Memo;
+import com.example.demo.infra.hawaii.tables.User;
+import com.example.demo.infra.hawaii.tables.UserProfile;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,7 +33,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Public extends SchemaImpl {
 
-    private static final long serialVersionUID = 68655644;
+    private static final long serialVersionUID = -81471262;
 
     /**
      * The reference instance of <code>public</code>
@@ -46,19 +46,19 @@ public class Public extends SchemaImpl {
     public final FlywaySchemaHistory FLYWAY_SCHEMA_HISTORY = com.example.demo.infra.hawaii.tables.FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY;
 
     /**
-     * The table <code>public.memos</code>.
+     * The table <code>public.memo</code>.
      */
-    public final Memos MEMOS = com.example.demo.infra.hawaii.tables.Memos.MEMOS;
+    public final Memo MEMO = com.example.demo.infra.hawaii.tables.Memo.MEMO;
 
     /**
-     * The table <code>public.user_profiles</code>.
+     * The table <code>public.user</code>.
      */
-    public final UserProfiles USER_PROFILES = com.example.demo.infra.hawaii.tables.UserProfiles.USER_PROFILES;
+    public final User USER = com.example.demo.infra.hawaii.tables.User.USER;
 
     /**
-     * The table <code>public.users</code>.
+     * The table <code>public.user_profile</code>.
      */
-    public final Users USERS = com.example.demo.infra.hawaii.tables.Users.USERS;
+    public final UserProfile USER_PROFILE = com.example.demo.infra.hawaii.tables.UserProfile.USER_PROFILE;
 
     /**
      * No further instances allowed
@@ -83,8 +83,8 @@ public class Public extends SchemaImpl {
     private final List<Table<?>> getTables0() {
         return Arrays.<Table<?>>asList(
             FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY,
-            Memos.MEMOS,
-            UserProfiles.USER_PROFILES,
-            Users.USERS);
+            Memo.MEMO,
+            User.USER,
+            UserProfile.USER_PROFILE);
     }
 }

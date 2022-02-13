@@ -27,7 +27,7 @@ public class Tables {
     /**
      * The table <code>public.memos</code>.
      */
-    public static final Memos MEMOS = Memos.MEMOS;
+    public static final Memos MEMOS = Memo.MEMO;
 
     /**
      * The table <code>public.user_profiles</code>.
@@ -37,5 +37,5 @@ public class Tables {
     /**
      * The table <code>public.users</code>.
      */
-    public static final Users USERS = Users.USERS;
+    public static final Users USERS = User.USER;
 }
