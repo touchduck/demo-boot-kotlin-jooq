@@ -76,7 +76,7 @@ class UserRepositoryImpl(
             .fetchOne()
     }
 
-    override fun updateById(usersRecord: UsersRecord): UsersRecord? {
+    override fun update(usersRecord: UsersRecord): UsersRecord? {
         usersRecord.updatedAt = TimeUtil.getDateTimeNow()
         return dsl.update(Users.USERS)
             .set(usersRecord)

@@ -15,8 +15,8 @@ import java.util.*
 @Transactional
 @Service
 class MemoServiceImpl(
-    private val memoRepository: MemoRepository,
     private val modelMapper: ModelMapper,
+    private val memoRepository: MemoRepository,
 ) : MemoService {
 
     private val log = LoggerFactory.getLogger(javaClass)

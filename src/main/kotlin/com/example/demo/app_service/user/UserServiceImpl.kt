@@ -54,7 +54,7 @@ class UserServiceImpl(
 
         userRepository.findById(userId)?.let {
             it.nickname = userParam.nickname
-            userRepository.updateById(it)?.let { itSub ->
+            userRepository.update(it)?.let { itSub ->
                 return itSub.toMono()
             }
         }

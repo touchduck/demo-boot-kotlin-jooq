@@ -1,7 +1,5 @@
 package com.example.demo.app_service.auth
 
-import com.example.demo.app_service.memo.MemoDto
-import com.example.demo.infra.hawaii.tables.records.MemosRecord
 import com.example.demo.infra.hawaii.tables.records.UsersRecord
 import java.time.LocalDateTime
 

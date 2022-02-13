@@ -18,7 +18,7 @@ interface UserRepository {
 
     fun findUsername(username: String): UsersRecord?
 
-    fun updateById(usersRecord: UsersRecord): UsersRecord?
+    fun update(usersRecord: UsersRecord): UsersRecord?
 
     fun deleteById(userId: UUID): Int
 
