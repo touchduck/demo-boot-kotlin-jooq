@@ -1,11 +1,10 @@
 package com.example.demo.app_service.user
 
 import com.example.demo.domain.user.UserRepository
-import com.example.demo.infra.hawaii.tables.Users
 import com.example.demo.infra.hawaii.tables.records.UsersRecord
 import com.example.demo.util.Pagination
 import com.example.demo.util.PaginationParam
-import org.jooq.DSLContext
+import org.modelmapper.ModelMapper
 import org.slf4j.LoggerFactory
 import org.springframework.security.crypto.factory.PasswordEncoderFactories
 import org.springframework.stereotype.Service
@@ -18,38 +17,35 @@ import java.util.*
 @Transactional
 @Service
 class UserServiceImpl(
-    private val dsl: DSLContext,
     private val userRepository: UserRepository,
+    private val modelMapper: ModelMapper,
 ) : UserService {
 
     private val log = LoggerFactory.getLogger(javaClass)
 
     override suspend fun create(userId: UUID, userParam: UserParam): Mono<UsersRecord> {
 
-        val newUer = dsl.insertInto(Users.USERS)
-            .set(Users.USERS.USERNAME, userParam.username)
-            .set(
-                Users.USERS.PASSWORD_HASH,
-                PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(userParam.password)
-            )
-            .returning()
-            .fetchOne()
+        val user = modelMapper.map(userParam, UsersRecord::class.java)
 
-        return newUer.toMono()
+        user.passwordHash = PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(userParam.password)
+
+        val createdUser = userRepository.save(user)
+
+        return createdUser.toMono()
     }
 
     override suspend fun getList(userId: UUID, paginationParam: PaginationParam): Mono<Pagination<UsersRecord>> {
 
         val userList = userRepository.findAll(paginationParam.size, paginationParam.offset)
+
         return userList.toMono()
     }
 
     override suspend fun getDetail(userId: UUID): Mono<UsersRecord> {
 
-        userRepository.findById(userId)
-            ?.let {
-                return it.toMono()
-            }
+        userRepository.findById(userId)?.let {
+            return it.toMono()
+        }
 
         return Mono.empty()
     }
@@ -67,6 +63,7 @@ class UserServiceImpl(
     }
 
     override suspend fun delete(userId: UUID): Mono<Int> {
+
         userRepository.deleteById(userId).let {
             return it.toMono()
         }

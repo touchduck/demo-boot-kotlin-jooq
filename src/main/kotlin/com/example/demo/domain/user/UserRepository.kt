@@ -8,13 +8,15 @@ interface UserRepository {
 
     fun count(): Long
 
+    fun save(usersRecord: UsersRecord): UsersRecord
+
     fun findAll(): List<UsersRecord>
 
     fun findAll(size: Int, offset: Long): Pagination<UsersRecord>
 
     fun findById(userId: UUID): UsersRecord?
 
-    fun findUsername(uername: String): UsersRecord?
+    fun findUsername(username: String): UsersRecord?
 
     fun updateById(usersRecord: UsersRecord): UsersRecord?
 

@@ -41,11 +41,10 @@ class MemoServiceImpl(
     // メモーの詳細
     override suspend fun getDetail(userId: UUID, memoId: UUID): Mono<MemosRecord> {
 
-        val foundMemo = memoRepository.findById(userId, memoId)
-
-        if (foundMemo != null) {
-            return foundMemo.toMono()
+        memoRepository.findById(userId, memoId)?.let {
+            return it.toMono()
         }
+
         return Mono.empty()
     }
 

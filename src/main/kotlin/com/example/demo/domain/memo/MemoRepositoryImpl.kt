@@ -69,7 +69,9 @@ class MemoRepositoryImpl(
     }
 
     override fun updateById(userId: UUID, memoId: UUID, memosRecord: MemosRecord): MemosRecord {
+
         memosRecord.updatedAt = TimeUtil.getDateTimeNow()
+
         return dsl.update(Memos.MEMOS)
             .set(memosRecord)
             .where(Memos.MEMOS.DELETED_AT.isNull)
@@ -79,6 +81,7 @@ class MemoRepositoryImpl(
     }
 
     override fun deleteById(userId: UUID, memoId: UUID): Int {
+
         return dsl.deleteFrom(Memos.MEMOS)
             .where(Memos.MEMOS.DELETED_AT.isNull)
             .and(Memos.MEMOS.ID.eq(memoId))

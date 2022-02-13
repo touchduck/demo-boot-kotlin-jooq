@@ -28,6 +28,7 @@ class AuthServiceImpl(
     override suspend fun signUp(signUpParam: SignUpParam): Mono<UsersRecord> {
 
         val now = TimeUtil.getDateTimeNow()
+
         val user = dsl.insertInto(Users.USERS)
             .set(Users.USERS.ID, UUID.randomUUID())
             .set(Users.USERS.USERNAME, signUpParam.username)
@@ -60,11 +61,13 @@ class AuthServiceImpl(
         if (PasswordEncoderFactories.createDelegatingPasswordEncoder().matches(checkPassword, password_hash)) {
             return true
         }
+
         return false
 
     }
 
     override suspend fun isRegisterUser(username: String): Mono<UsersRecord> {
+
         userRepository.findUsername(username)?.let {
             return it.toMono()
         }

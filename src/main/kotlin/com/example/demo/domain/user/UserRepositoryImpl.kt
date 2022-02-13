@@ -22,6 +22,21 @@ class UserRepositoryImpl(
             .fetchOne().value1().toLong()
     }
 
+    override fun save(usersRecord: UsersRecord): UsersRecord {
+
+        usersRecord.id = UUID.randomUUID()
+
+        val now = TimeUtil.getDateTimeNow()
+
+        usersRecord.createdAt = now
+        usersRecord.updatedAt = now
+
+        return dsl.insertInto(Users.USERS)
+            .set(usersRecord)
+            .returning()
+            .fetchOne()
+    }
+
     override fun findAll(): List<UsersRecord> {
 
         return dsl.selectFrom(Users.USERS)
@@ -52,11 +67,11 @@ class UserRepositoryImpl(
             .fetchOne()
     }
 
-    override fun findUsername(uername: String): UsersRecord? {
+    override fun findUsername(username: String): UsersRecord? {
 
         return dsl.selectFrom(Users.USERS)
             .where(Users.USERS.DELETED_AT.isNull)
-            .and(Users.USERS.USERNAME.eq(uername))
+            .and(Users.USERS.USERNAME.eq(username))
             .orderBy(Users.USERS.CREATED_AT.desc())
             .fetchOne()
     }

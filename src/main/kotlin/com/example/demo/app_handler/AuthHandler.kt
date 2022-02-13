@@ -1,9 +1,9 @@
 package com.example.demo.app_handler
 
-import com.example.demo.app_service.auth.AuthDto
 import com.example.demo.app_service.auth.AuthService
 import com.example.demo.app_service.auth.SignUpParam
 import com.example.demo.app_service.auth.UserSettingParam
+import com.example.demo.app_service.auth.toAuthDto
 import com.example.demo.app_service.token.TokenService
 import com.example.demo.app_service.util.ErrorDto
 import kotlinx.coroutines.reactor.awaitSingle
@@ -29,18 +29,17 @@ class AuthHandler(
 
             val signUpParam = request.awaitBody<SignUpParam>().validateObj()
 
-            authService.isRegisterUser(signUpParam.username).awaitSingleOrNull()
-                ?.let {
-                    return badRequest().contentType(MediaType.APPLICATION_JSON)
-                        .bodyValueAndAwait(ErrorDto.dataDuplicated("auth"))
-                }
+            authService.isRegisterUser(signUpParam.username).awaitSingleOrNull()?.let {
+                return badRequest().contentType(MediaType.APPLICATION_JSON)
+                    .bodyValueAndAwait(ErrorDto.dataDuplicated("auth"))
+            }
 
             val registeredUser = authService.signUp(signUpParam).awaitSingle()
 
             log.info("registered new user: {}", registeredUser.username)
 
             created(URI.create("/api/v1/users/${registeredUser.id}")).contentType(MediaType.APPLICATION_JSON)
-                .bodyValueAndAwait(AuthDto.toMapping(registeredUser))
+                .bodyValueAndAwait(registeredUser.toAuthDto())
 
         } catch (e: Exception) {
             log.error(e.localizedMessage)

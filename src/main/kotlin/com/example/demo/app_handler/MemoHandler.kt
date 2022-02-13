@@ -33,11 +33,10 @@ class MemoHandler(
 
             val memoParam = request.awaitBody<MemoParam>().validateObj()
 
-            memoService.create(userId, memoParam).awaitSingleOrNull()
-                ?.let {
-                    return created(URI.create("/api/v1/memos/${it.id}")).contentType(MediaType.APPLICATION_JSON)
-                        .bodyValueAndAwait(it.toDto())
-                }
+            memoService.create(userId, memoParam).awaitSingleOrNull()?.let {
+                return created(URI.create("/api/v1/memos/${it.id}")).contentType(MediaType.APPLICATION_JSON)
+                    .bodyValueAndAwait(it.toDto())
+            }
 
             badRequest().contentType(MediaType.APPLICATION_JSON)
                 .bodyValueAndAwait(ErrorDto.dataFailedInsert("memo"))
@@ -76,11 +75,10 @@ class MemoHandler(
             val userId = tokenService.getUserId(request)
             val memoId = UUID.fromString(request.pathVariable("id"))
 
-            memoService.getDetail(userId, memoId).awaitSingleOrNull()
-                ?.let {
-                    return ok().contentType(MediaType.APPLICATION_JSON)
-                        .bodyValueAndAwait(it.toDto())
-                }
+            memoService.getDetail(userId, memoId).awaitSingleOrNull()?.let {
+                return ok().contentType(MediaType.APPLICATION_JSON)
+                    .bodyValueAndAwait(it.toDto())
+            }
 
             notFound().buildAndAwait()
 
@@ -100,11 +98,10 @@ class MemoHandler(
 
             val memoParam = request.awaitBody<MemoParam>().validateObj()
 
-            memoService.update(userId, memoId, memoParam).awaitSingleOrNull()
-                ?.let {
-                    return ok().contentType(MediaType.APPLICATION_JSON)
-                        .bodyValueAndAwait(it.toDto())
-                }
+            memoService.update(userId, memoId, memoParam).awaitSingleOrNull()?.let {
+                return ok().contentType(MediaType.APPLICATION_JSON)
+                    .bodyValueAndAwait(it.toDto())
+            }
 
             notFound().buildAndAwait()
 
@@ -122,10 +119,9 @@ class MemoHandler(
             val userId = tokenService.getUserId(request)
             val memoId = UUID.fromString(request.pathVariable("id"))
 
-            memoService.delete(userId, memoId).awaitSingleOrNull()
-                ?.let {
-                    return ok().contentType(MediaType.APPLICATION_JSON).buildAndAwait()
-                }
+            memoService.delete(userId, memoId).awaitSingleOrNull()?.let {
+                return ok().contentType(MediaType.APPLICATION_JSON).buildAndAwait()
+            }
 
             notFound().buildAndAwait()
 
