@@ -15,6 +15,7 @@ class MemoRepositoryImpl(
 ) : MemoRepository {
 
     override fun count(userId: UUID): Long {
+
         return dsl.selectCount()
             .from(MEMO)
             .where(MEMO.DELETED_AT.isNull)
@@ -39,6 +40,7 @@ class MemoRepositoryImpl(
     }
 
     override fun findAll(userId: UUID): List<MemoRecord> {
+
         return dsl.selectFrom(MEMO)
             .where(MEMO.DELETED_AT.isNull)
             .orderBy(MEMO.CREATED_AT.desc())
@@ -60,6 +62,7 @@ class MemoRepositoryImpl(
     }
 
     override fun findById(userId: UUID, memoId: UUID): MemoRecord? {
+        
         return dsl.selectFrom(MEMO)
             .where(MEMO.DELETED_AT.isNull)
             .and(MEMO.ID.eq(memoId))
