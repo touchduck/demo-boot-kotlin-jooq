@@ -62,7 +62,7 @@ class MemoRepositoryImpl(
     }
 
     override fun findById(userId: UUID, memoId: UUID): MemoRecord? {
-        
+
         return dsl.selectFrom(MEMO)
             .where(MEMO.DELETED_AT.isNull)
             .and(MEMO.ID.eq(memoId))
