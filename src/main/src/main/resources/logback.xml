@@ -6,6 +6,7 @@
 
     <logger name="org.jooq" level="DEBUG"/>
     <logger name="org.jooq.Constants" level="OFF"/>
+    <logger name="org.jooq.tools.JooqLogger" level="OFF"/>
 
     <logger name="com.example" level="DEBUG"/>
 

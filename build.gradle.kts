@@ -7,7 +7,7 @@ plugins {
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
     kotlin("jvm") version "1.6.10"
     kotlin("plugin.spring") version "1.6.10"
-    id("org.springframework.experimental.aot") version "0.11.2"
+//    id("org.springframework.experimental.aot") version "0.11.2"
     id("org.flywaydb.flyway") version "8.4.4"
     id("com.rohanprabhu.kotlin-dsl-jooq") version "0.4.6"  // need jooqGen
 }
