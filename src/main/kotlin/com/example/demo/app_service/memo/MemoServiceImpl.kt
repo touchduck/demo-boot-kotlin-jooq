@@ -4,8 +4,6 @@ import com.example.demo.domain.memo.MemoRepository
 import com.example.demo.infra.hawaii.tables.records.MemosRecord
 import com.example.demo.util.Pagination
 import com.example.demo.util.PaginationParam
-import kotlinx.coroutines.reactor.awaitSingle
-import kotlinx.coroutines.reactor.awaitSingleOrNull
 import org.modelmapper.ModelMapper
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -27,25 +25,27 @@ class MemoServiceImpl(
     override suspend fun create(userId: UUID, memoParam: MemoParam): Mono<MemosRecord> {
 
         val memo = modelMapper.map(memoParam, MemosRecord::class.java)
+        val createdMemo = memoRepository.save(userId, memo)
 
-        return memoRepository.save(userId, memo)
+        return createdMemo.toMono()
     }
 
     // メモーの一覧
     override suspend fun getList(userId: UUID, paginationParam: PaginationParam): Mono<Pagination<MemosRecord>> {
 
-        memoRepository.findAll(userId, paginationParam.size, paginationParam.offset).awaitSingle().let {
-            return it.toMono()
-        }
+        val memoList = memoRepository.findAll(userId, paginationParam.size, paginationParam.offset)
+
+        return memoList.toMono()
     }
 
     // メモーの詳細
     override suspend fun getDetail(userId: UUID, memoId: UUID): Mono<MemosRecord> {
 
-        memoRepository.findById(userId, memoId).awaitSingleOrNull()?.let {
-            return it.toMono()
-        }
+        val foundMemo = memoRepository.findById(userId, memoId)
 
+        if (foundMemo != null) {
+            return foundMemo.toMono()
+        }
         return Mono.empty()
     }
 
@@ -54,18 +54,17 @@ class MemoServiceImpl(
 
         val memo = modelMapper.map(memoParam, MemosRecord::class.java)
 
-        memoRepository.updateById(userId, memoId, memo).awaitSingleOrNull()?.let {
-            return it.toMono()
-        }
+        val updatedMemo = memoRepository.updateById(userId, memoId, memo)
 
-        return Mono.empty()
+        return updatedMemo.toMono()
     }
 
     // メモーの削除
     override suspend fun delete(userId: UUID, memoId: UUID): Mono<Int> {
 
-        memoRepository.deleteById(userId, memoId).awaitSingleOrNull()?.let {
-            return it.toMono()
+        val ret = memoRepository.deleteById(userId, memoId)
+        if (ret > 0) {
+            return ret.toMono()
         }
 
         return Mono.empty()
