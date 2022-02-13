@@ -34,12 +34,13 @@ class AuthHandler(
                     .bodyValueAndAwait(ErrorDto.dataDuplicated("auth"))
             }
 
-            val registeredUser = authService.signUp(signUpParam).awaitSingle()
+            val user = authService.signUp(signUpParam).awaitSingle()
 
-            log.info("registered new user: {}", registeredUser.username)
+            log.info("sign up user: {}", user.username)
 
-            created(URI.create("/api/v1/users/${registeredUser.id}")).contentType(MediaType.APPLICATION_JSON)
-                .bodyValueAndAwait(registeredUser.toAuthDto())
+            created(URI.create("/api/v1/users/${user.id}"))
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValueAndAwait(user.toAuthDto())
 
         } catch (e: Exception) {
             log.error(e.localizedMessage)
