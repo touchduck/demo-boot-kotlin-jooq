@@ -3,10 +3,9 @@ package com.example.demo.domain.user
 import com.example.demo.infra.hawaii.tables.Users
 import com.example.demo.infra.hawaii.tables.records.UsersRecord
 import com.example.demo.util.Pagination
+import com.example.demo.util.TimeUtil
 import org.jooq.DSLContext
 import org.springframework.stereotype.Repository
-import reactor.core.publisher.Mono
-import reactor.kotlin.core.publisher.toMono
 import java.util.*
 
 
@@ -15,22 +14,25 @@ class UserRepositoryImpl(
     private val dsl: DSLContext,
 ) : UserRepository {
 
-    override fun findAll(userId: UUID): Mono<List<UsersRecord>> {
+    override fun count(): Long {
 
-        val ret = dsl.selectFrom(Users.USERS)
-            .where(Users.USERS.DELETED_AT.isNull)
-            .orderBy(Users.USERS.CREATED_AT.desc())
-            .fetch()
-
-        return ret.toMono()
-    }
-
-    override fun findAll(userId: UUID, size: Int, offset: Long): Mono<Pagination<UsersRecord>> {
-
-        val count = dsl.selectCount()
+        return dsl.selectCount()
             .from(Users.USERS)
             .where(Users.USERS.DELETED_AT.isNull)
             .fetchOne().value1().toLong()
+    }
+
+    override fun findAll(): List<UsersRecord> {
+
+        return dsl.selectFrom(Users.USERS)
+            .where(Users.USERS.DELETED_AT.isNull)
+            .orderBy(Users.USERS.CREATED_AT.desc())
+            .fetch()
+    }
+
+    override fun findAll(size: Int, offset: Long): Pagination<UsersRecord> {
+
+        val cnt = count()
 
         val ret = dsl.selectFrom(Users.USERS)
             .where(Users.USERS.DELETED_AT.isNull)
@@ -38,40 +40,43 @@ class UserRepositoryImpl(
             .limit(size).offset(offset)
             .fetch()
 
-        return Pagination(size, offset, count, ret).toMono()
+        return Pagination(size, offset, cnt, ret)
     }
 
-    override fun findById(userId: UUID): Mono<UsersRecord> {
+    override fun findById(userId: UUID): UsersRecord? {
 
-        val ret = dsl.selectFrom(Users.USERS)
+        return dsl.selectFrom(Users.USERS)
             .where(Users.USERS.DELETED_AT.isNull)
             .and(Users.USERS.ID.eq(userId))
             .orderBy(Users.USERS.CREATED_AT.desc())
             .fetchOne()
-
-        return ret.toMono()
     }
 
-    override fun findByEmail(email: String): Mono<UsersRecord> {
+    override fun findByEmail(email: String): UsersRecord? {
 
-        val ret = dsl.selectFrom(Users.USERS)
+        return dsl.selectFrom(Users.USERS)
             .where(Users.USERS.DELETED_AT.isNull)
             .and(Users.USERS.USERNAME.eq(email))
             .orderBy(Users.USERS.CREATED_AT.desc())
             .fetchOne()
-
-        return ret.toMono()
     }
 
-    override fun deleteById(userId: UUID): Mono<Int> {
+    override fun updateById(usersRecord: UsersRecord): UsersRecord? {
+        usersRecord.updatedAt = TimeUtil.getDateTimeNow()
+        return dsl.update(Users.USERS)
+            .set(usersRecord)
+            .where(Users.USERS.DELETED_AT.isNull)
+            .and(Users.USERS.ID.eq(usersRecord.id))
+            .returning().fetchOne()
+    }
 
-        val ret = dsl.deleteFrom(Users.USERS)
+    override fun deleteById(userId: UUID): Int {
+
+        return dsl.deleteFrom(Users.USERS)
             .where(Users.USERS.DELETED_AT.isNull)
             .and(Users.USERS.ID.eq(userId))
             .orderBy(Users.USERS.CREATED_AT.desc())
             .execute()
-
-        return ret.toMono()
 
     }
 

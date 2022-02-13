@@ -2,19 +2,22 @@ package com.example.demo.domain.user
 
 import com.example.demo.infra.hawaii.tables.records.UsersRecord
 import com.example.demo.util.Pagination
-import reactor.core.publisher.Mono
 import java.util.*
 
 interface UserRepository {
 
-    fun findAll(userId: UUID): Mono<List<UsersRecord>>
+    fun count(): Long
 
-    fun findAll(userId: UUID, size: Int, offset: Long): Mono<Pagination<UsersRecord>>
+    fun findAll(): List<UsersRecord>
 
-    fun findById(userId: UUID): Mono<UsersRecord>
+    fun findAll(size: Int, offset: Long): Pagination<UsersRecord>
 
-    fun findByEmail(email: String): Mono<UsersRecord>
+    fun findById(userId: UUID): UsersRecord?
 
-    fun deleteById(userId: UUID): Mono<Int>
+    fun findByEmail(email: String): UsersRecord?
+
+    fun updateById(usersRecord: UsersRecord): UsersRecord?
+
+    fun deleteById(userId: UUID): Int
 
 }

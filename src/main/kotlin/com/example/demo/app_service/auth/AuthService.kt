@@ -12,7 +12,7 @@ interface AuthService {
 
     suspend fun comparePassword(checkPassword: String, password_hash: String): Boolean
 
-    suspend fun isRegistedUser(username: String): Mono<UsersRecord>
+    suspend fun isRegisterUser(username: String): Mono<UsersRecord>
 
     suspend fun update(userId: UUID, param: UserSettingParam): Mono<UsersRecord>
 }

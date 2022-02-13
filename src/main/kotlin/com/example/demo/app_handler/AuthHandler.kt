@@ -29,7 +29,7 @@ class AuthHandler(
 
             val signUpParam = request.awaitBody<SignUpParam>().validateObj()
 
-            authService.isRegistedUser(signUpParam.username).awaitSingleOrNull()
+            authService.isRegisterUser(signUpParam.username).awaitSingleOrNull()
                 ?.let {
                     return badRequest().contentType(MediaType.APPLICATION_JSON)
                         .bodyValueAndAwait(ErrorDto.dataDuplicated("auth"))

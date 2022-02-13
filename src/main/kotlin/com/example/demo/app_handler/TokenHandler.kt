@@ -24,7 +24,7 @@ class TokenHandler(
 
             val signInDTO = request.awaitBody<TokenParam>().validateObj()
 
-            val user = authService.isRegistedUser(signInDTO.username).awaitSingleOrNull()
+            val user = authService.isRegisterUser(signInDTO.username).awaitSingleOrNull()
                 ?: return notFound().buildAndAwait()
 
             if (!authService.comparePassword(signInDTO.password, user.passwordHash)) {

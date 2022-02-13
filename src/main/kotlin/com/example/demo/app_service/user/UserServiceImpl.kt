@@ -5,9 +5,6 @@ import com.example.demo.infra.hawaii.tables.Users
 import com.example.demo.infra.hawaii.tables.records.UsersRecord
 import com.example.demo.util.Pagination
 import com.example.demo.util.PaginationParam
-import com.example.demo.util.TimeUtil
-import kotlinx.coroutines.reactor.awaitSingle
-import kotlinx.coroutines.reactor.awaitSingleOrNull
 import org.jooq.DSLContext
 import org.slf4j.LoggerFactory
 import org.springframework.security.crypto.factory.PasswordEncoderFactories
@@ -43,15 +40,13 @@ class UserServiceImpl(
 
     override suspend fun getList(userId: UUID, paginationParam: PaginationParam): Mono<Pagination<UsersRecord>> {
 
-        userRepository.findAll(userId, paginationParam.size, paginationParam.offset).awaitSingle()
-            .let {
-                return it.toMono()
-            }
+        val userList = userRepository.findAll(paginationParam.size, paginationParam.offset)
+        return userList.toMono()
     }
 
     override suspend fun getDetail(userId: UUID): Mono<UsersRecord> {
 
-        userRepository.findById(userId).awaitSingleOrNull()
+        userRepository.findById(userId)
             ?.let {
                 return it.toMono()
             }
@@ -61,22 +56,20 @@ class UserServiceImpl(
 
     override suspend fun update(userId: UUID, userParam: UserParam): Mono<UsersRecord> {
 
-        val user = userRepository.findById(userId).awaitSingleOrNull() ?: return Mono.empty()
+        userRepository.findById(userId)?.let {
+            it.nickname = userParam.nickname
+            userRepository.updateById(it)?.let { itSub ->
+                return itSub.toMono()
+            }
+        }
 
-        user.nickname = userParam.nickname
-        user.updatedAt = TimeUtil.getDateTimeNow()
-
-        return user.toMono()
+        return Mono.empty()
     }
 
     override suspend fun delete(userId: UUID): Mono<Int> {
-
-        userRepository.deleteById(userId).awaitSingleOrNull()
-            ?.let {
-                return it.toMono()
-            }
-
-        return Mono.empty()
+        userRepository.deleteById(userId).let {
+            return it.toMono()
+        }
     }
 
 }

@@ -64,24 +64,27 @@ class AuthServiceImpl(
 
     }
 
-    override suspend fun isRegistedUser(username: String): Mono<UsersRecord> {
-        return userRepository.findByEmail(username).awaitSingleOrNull()
-            ?.let {
-                return it.toMono()
-            }
-            ?: Mono.empty()
+    override suspend fun isRegisterUser(username: String): Mono<UsersRecord> {
+        userRepository.findByEmail(username)?.let{
+            return it.toMono()
+        }
+
+        return Mono.empty()
     }
 
     override suspend fun update(userId: UUID, param: UserSettingParam): Mono<UsersRecord> {
 
-        val user = userRepository.findById(userId).awaitSingleOrNull() ?: return Mono.empty()
+        userRepository.findById(userId)?.let{
 
-        user.firstName = param.firstname
-        user.lastName = param.lastname
+            it.firstName = param.firstname
+            it.lastName = param.lastname
 
-        user.updatedAt = TimeUtil.getDateTimeNow()
+            userRepository.updateById(it)?.let { itSub ->
+                return itSub.toMono()
+            }
+        }
 
-        return user.toMono()
+        return Mono.empty()
     }
 
 }
