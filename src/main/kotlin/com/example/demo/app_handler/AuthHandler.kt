@@ -51,6 +51,7 @@ class AuthHandler(
     suspend fun update(request: ServerRequest): ServerResponse {
 
         return try {
+
             val userId = tokenService.getUserId(request)
 
             val userParam = request.awaitBody<UserSettingParam>().validateObj()

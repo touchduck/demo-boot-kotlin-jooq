@@ -52,6 +52,7 @@ class MemoHandler(
     suspend fun getAll(request: ServerRequest): ServerResponse {
 
         return try {
+
             val userId = tokenService.getUserId(request)
 
             val pagination = memoService.getList(userId, PaginationParam(request)).awaitSingle()
@@ -71,6 +72,7 @@ class MemoHandler(
     suspend fun getById(request: ServerRequest): ServerResponse {
 
         return try {
+
             val userId = tokenService.getUserId(request)
             val memoId = UUID.fromString(request.pathVariable("id"))
 
@@ -92,6 +94,7 @@ class MemoHandler(
     suspend fun update(request: ServerRequest): ServerResponse {
 
         return try {
+
             val userId = tokenService.getUserId(request)
             val memoId = UUID.fromString(request.pathVariable("id"))
 
@@ -115,6 +118,7 @@ class MemoHandler(
     suspend fun delete(request: ServerRequest): ServerResponse {
 
         return try {
+
             val userId = tokenService.getUserId(request)
             val memoId = UUID.fromString(request.pathVariable("id"))
 
