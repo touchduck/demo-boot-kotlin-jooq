@@ -9,7 +9,7 @@ interface UserRepository {
 
     fun findAll(userId: UUID): Mono<List<UsersRecord>>
 
-    fun pagination(userId: UUID, size: Int, offset: Long): Mono<Pagination<UsersRecord>>
+    fun findAll(userId: UUID, size: Int, offset: Long): Mono<Pagination<UsersRecord>>
 
     fun findById(userId: UUID): Mono<UsersRecord>
 

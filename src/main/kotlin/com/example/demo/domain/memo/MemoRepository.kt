@@ -7,7 +7,7 @@ import java.util.*
 
 interface MemoRepository {
 
-    fun insert(memosRecord: MemosRecord): Mono<MemosRecord>
+    fun save(userId: UUID, memosRecord: MemosRecord): Mono<MemosRecord>
 
     fun findAll(userId: UUID): Mono<List<MemosRecord>>
 
@@ -15,7 +15,7 @@ interface MemoRepository {
 
     fun findById(userId: UUID, memoId: UUID): Mono<MemosRecord>
 
-    fun update(userId: UUID, memoId: UUID, memosRecord: MemosRecord): Mono<MemosRecord>
+    fun updateById(userId: UUID, memoId: UUID, memosRecord: MemosRecord): Mono<MemosRecord>
 
     fun deleteById(userId: UUID, memoId: UUID): Mono<Int>
 }

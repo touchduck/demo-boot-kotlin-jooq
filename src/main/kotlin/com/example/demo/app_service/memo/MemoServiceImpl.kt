@@ -20,6 +20,7 @@ class MemoServiceImpl(
     private val memoRepository: MemoRepository,
     private val modelMapper: ModelMapper,
 ) : MemoService {
+
     private val log = LoggerFactory.getLogger(javaClass)
 
     // メモーの作成
@@ -27,27 +28,23 @@ class MemoServiceImpl(
 
         val memo = modelMapper.map(memoParam, MemosRecord::class.java)
 
-        memo.userId = userId
-
-        return memoRepository.insert(memo)
+        return memoRepository.save(userId, memo)
     }
 
     // メモーの一覧
     override suspend fun getList(userId: UUID, paginationParam: PaginationParam): Mono<Pagination<MemosRecord>> {
 
-        memoRepository.findAll(userId, paginationParam.size, paginationParam.offset).awaitSingle()
-            .let {
-                return it.toMono()
-            }
+        memoRepository.findAll(userId, paginationParam.size, paginationParam.offset).awaitSingle().let {
+            return it.toMono()
+        }
     }
 
     // メモーの詳細
     override suspend fun getDetail(userId: UUID, memoId: UUID): Mono<MemosRecord> {
 
-        memoRepository.findById(userId, memoId).awaitSingleOrNull()
-            ?.let {
-                return it.toMono()
-            }
+        memoRepository.findById(userId, memoId).awaitSingleOrNull()?.let {
+            return it.toMono()
+        }
 
         return Mono.empty()
     }
@@ -57,13 +54,9 @@ class MemoServiceImpl(
 
         val memo = modelMapper.map(memoParam, MemosRecord::class.java)
 
-        memo.title = memoParam.title
-        memo.body = memoParam.body
-
-        memoRepository.update(userId, memoId, memo).awaitSingleOrNull()
-            ?.let {
-                return it.toMono()
-            }
+        memoRepository.updateById(userId, memoId, memo).awaitSingleOrNull()?.let {
+            return it.toMono()
+        }
 
         return Mono.empty()
     }
@@ -71,10 +64,9 @@ class MemoServiceImpl(
     // メモーの削除
     override suspend fun delete(userId: UUID, memoId: UUID): Mono<Int> {
 
-        memoRepository.deleteById(userId, memoId).awaitSingleOrNull()
-            ?.let {
-                return it.toMono()
-            }
+        memoRepository.deleteById(userId, memoId).awaitSingleOrNull()?.let {
+            return it.toMono()
+        }
 
         return Mono.empty()
     }

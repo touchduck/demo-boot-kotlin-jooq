@@ -25,7 +25,7 @@ class UserRepositoryImpl(
         return ret.toMono()
     }
 
-    override fun pagination(userId: UUID, size: Int, offset: Long): Mono<Pagination<UsersRecord>> {
+    override fun findAll(userId: UUID, size: Int, offset: Long): Mono<Pagination<UsersRecord>> {
 
         val count = dsl.selectCount()
             .from(Users.USERS)
