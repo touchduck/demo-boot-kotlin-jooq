@@ -7,8 +7,6 @@ import java.util.*
 
 interface MemoRepository {
 
-    fun create(): Mono<MemosRecord>
-
     fun insert(memosRecord: MemosRecord): Mono<MemosRecord>
 
     fun findAll(userId: UUID): Mono<List<MemosRecord>>

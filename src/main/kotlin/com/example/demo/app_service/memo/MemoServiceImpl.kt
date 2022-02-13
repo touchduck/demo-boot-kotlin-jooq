@@ -6,6 +6,7 @@ import com.example.demo.util.Pagination
 import com.example.demo.util.PaginationParam
 import kotlinx.coroutines.reactor.awaitSingle
 import kotlinx.coroutines.reactor.awaitSingleOrNull
+import org.modelmapper.ModelMapper
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -17,20 +18,18 @@ import java.util.*
 @Service
 class MemoServiceImpl(
     private val memoRepository: MemoRepository,
+    private val modelMapper: ModelMapper,
 ) : MemoService {
     private val log = LoggerFactory.getLogger(javaClass)
 
     // メモーの作成
     override suspend fun create(userId: UUID, memoParam: MemoParam): Mono<MemosRecord> {
 
-        val newMemo = memoRepository.create().awaitSingle()
+        val memo = modelMapper.map(memoParam, MemosRecord::class.java)
 
-        newMemo.id = UUID.randomUUID()
-        newMemo.userId = userId
-        newMemo.title = memoParam.title
-        newMemo.body = memoParam.body
+        memo.userId = userId
 
-        return memoRepository.insert(newMemo)
+        return memoRepository.insert(memo)
     }
 
     // メモーの一覧
@@ -56,12 +55,12 @@ class MemoServiceImpl(
     // メモーの更新
     override suspend fun update(userId: UUID, memoId: UUID, memoParam: MemoParam): Mono<MemosRecord> {
 
-        val updateMemo = memoRepository.create().awaitSingle()
+        val memo = modelMapper.map(memoParam, MemosRecord::class.java)
 
-        updateMemo.title = memoParam.title
-        updateMemo.body = memoParam.body
+        memo.title = memoParam.title
+        memo.body = memoParam.body
 
-        memoRepository.update(userId, memoId, updateMemo).awaitSingleOrNull()
+        memoRepository.update(userId, memoId, memo).awaitSingleOrNull()
             ?.let {
                 return it.toMono()
             }

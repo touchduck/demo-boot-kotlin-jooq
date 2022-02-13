@@ -9,6 +9,7 @@ import com.example.demo.util.TimeUtil
 import kotlinx.coroutines.reactor.awaitSingle
 import kotlinx.coroutines.reactor.awaitSingleOrNull
 import org.jooq.DSLContext
+import org.modelmapper.ModelMapper
 import org.slf4j.LoggerFactory
 import org.springframework.security.crypto.factory.PasswordEncoderFactories
 import org.springframework.stereotype.Service
@@ -22,6 +23,7 @@ import java.util.*
 @Service
 class UserServiceImpl(
     private val dsl: DSLContext,
+    private val modelMapper: ModelMapper,
     private val userRepository: UserRepository,
 ) : UserService {
 

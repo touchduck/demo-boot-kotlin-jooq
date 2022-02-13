@@ -16,11 +16,9 @@ class MemoRepositoryImpl(
     private val dsl: DSLContext,
 ) : MemoRepository {
 
-    override fun create(): Mono<MemosRecord> {
-        return dsl.newRecord(Memos.MEMOS).toMono()
-    }
-
     override fun insert(memosRecord: MemosRecord): Mono<MemosRecord> {
+
+        memosRecord.id = UUID.randomUUID()
 
         val now = TimeUtil.getDateTimeNow()
 
@@ -77,10 +75,7 @@ class MemoRepositoryImpl(
 
     override fun update(userId: UUID, memoId: UUID, memosRecord: MemosRecord): Mono<MemosRecord> {
 
-        val now = TimeUtil.getDateTimeNow()
-
-        memosRecord.createdAt = now
-        memosRecord.updatedAt = now
+        memosRecord.updatedAt = TimeUtil.getDateTimeNow()
 
         val ret = dsl.update(Memos.MEMOS)
             .set(memosRecord)

@@ -54,6 +54,7 @@ dependencies {
     runtimeOnly("org.postgresql:postgresql")
 
     implementation("org.valiktor:valiktor-spring-boot-starter:0.12.0")
+    implementation("org.modelmapper:modelmapper:3.0.0")
 
     implementation("io.jsonwebtoken:jjwt-api:0.11.2")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.2")

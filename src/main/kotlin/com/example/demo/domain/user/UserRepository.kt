@@ -7,8 +7,6 @@ import java.util.*
 
 interface UserRepository {
 
-    fun create(): Mono<UsersRecord>
-
     fun findAll(userId: UUID): Mono<List<UsersRecord>>
 
     fun pagination(userId: UUID, size: Int, offset: Long): Mono<Pagination<UsersRecord>>
