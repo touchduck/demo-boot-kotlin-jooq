@@ -52,11 +52,11 @@ class UserRepositoryImpl(
             .fetchOne()
     }
 
-    override fun findByEmail(email: String): UsersRecord? {
+    override fun findUsername(uername: String): UsersRecord? {
 
         return dsl.selectFrom(Users.USERS)
             .where(Users.USERS.DELETED_AT.isNull)
-            .and(Users.USERS.USERNAME.eq(email))
+            .and(Users.USERS.USERNAME.eq(uername))
             .orderBy(Users.USERS.CREATED_AT.desc())
             .fetchOne()
     }

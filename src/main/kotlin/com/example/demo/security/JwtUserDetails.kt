@@ -1,7 +1,6 @@
 package com.example.demo.security
 
 
-import com.example.demo.infra.hawaii.tables.records.UsersRecord
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
@@ -23,24 +22,6 @@ data class JwtUserDetails(
     val deletedAt: LocalDateTime?
 
 ) : UserDetails {
-
-    companion object {
-
-        fun toMapping(user: UsersRecord): JwtUserDetails {
-            return JwtUserDetails(
-                id = user.id,
-
-                username = user.username,
-                password = user.passwordHash,
-                nickname = user.nickname,
-                authorities = user.authorities,
-
-                createdAt = user.createdAt,
-                updatedAt = user.updatedAt,
-                deletedAt = user.deletedAt
-            )
-        }
-    }
 
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
         return authorities.split(",")

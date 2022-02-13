@@ -18,7 +18,9 @@ class JwtUserDetailService(
     private val log = LoggerFactory.getLogger(javaClass)
 
     override fun findByUsername(username: String?): Mono<UserDetails> {
-        userRepository.findByEmail(username!!)?.let {
+
+        userRepository.findUsername(username!!)?.let {
+
             val jwtUserDetails = JwtUserDetails(
                 id = it.id,
 
@@ -34,6 +36,7 @@ class JwtUserDetailService(
 
             return jwtUserDetails.toMono()
         }
+
         return Mono.empty()
     }
 

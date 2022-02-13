@@ -14,7 +14,7 @@ interface UserRepository {
 
     fun findById(userId: UUID): UsersRecord?
 
-    fun findByEmail(email: String): UsersRecord?
+    fun findUsername(uername: String): UsersRecord?
 
     fun updateById(usersRecord: UsersRecord): UsersRecord?
 

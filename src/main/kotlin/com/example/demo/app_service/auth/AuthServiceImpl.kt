@@ -65,7 +65,7 @@ class AuthServiceImpl(
     }
 
     override suspend fun isRegisterUser(username: String): Mono<UsersRecord> {
-        userRepository.findByEmail(username)?.let{
+        userRepository.findUsername(username)?.let {
             return it.toMono()
         }
 
@@ -74,7 +74,7 @@ class AuthServiceImpl(
 
     override suspend fun update(userId: UUID, param: UserSettingParam): Mono<UsersRecord> {
 
-        userRepository.findById(userId)?.let{
+        userRepository.findById(userId)?.let {
 
             it.firstName = param.firstname
             it.lastName = param.lastname
