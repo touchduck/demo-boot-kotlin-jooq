@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringWebFluxTest
-class AuthHandlerTest(@Autowired override val client: WebTestClient, @Autowired override val dsl: DSLContext) :
+class SignUpHandlerTest(@Autowired override val client: WebTestClient, @Autowired override val dsl: DSLContext) :
     AuthUtil(client, dsl) {
 
     @BeforeAll
@@ -32,7 +32,7 @@ class AuthHandlerTest(@Autowired override val client: WebTestClient, @Autowired 
             nickname = "くまさんFail",
         )
 
-        val result = apiPostExchange(apiAuthUri, param)
+        val result = apiPostExchange(apiSignUpUri, param)
         result.expectStatus().isBadRequest
     }
 

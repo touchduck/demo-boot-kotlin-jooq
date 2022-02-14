@@ -13,5 +13,5 @@ interface AuthService {
 
     fun isRegisterUser(username: String): UserRecord?
 
-    fun update(userId: UUID, param: UserSettingParam): UserRecord?
+    fun update(userId: UUID, param: UserParam): UserRecord?
 }

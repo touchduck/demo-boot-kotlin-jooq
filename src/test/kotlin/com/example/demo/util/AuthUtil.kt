@@ -15,7 +15,7 @@ import java.time.Duration
 
 open class AuthUtil(@Autowired open val client: WebTestClient, @Autowired open val dsl: DSLContext) {
 
-    var apiAuthUri = "/api/v1/auth"
+    var apiSignUpUri = "/api/v1/signup"
     var apiTokenUri = "/api/v1/token"
 
     var token: String = ""
@@ -42,7 +42,7 @@ open class AuthUtil(@Autowired open val client: WebTestClient, @Autowired open v
             nickname = nickname,
         )
 
-        val result = client.post().uri(apiAuthUri)
+        val result = client.post().uri(apiSignUpUri)
             .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
             .contentType(MediaType.APPLICATION_JSON)
             .bodyValue(param)

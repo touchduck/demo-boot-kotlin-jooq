@@ -1,8 +1,8 @@
 package com.example.demo.app_handler
 
+import com.example.demo.app_service.memo.MemoDto
 import com.example.demo.app_service.memo.MemoParam
 import com.example.demo.app_service.memo.MemoService
-import com.example.demo.app_service.memo.toDto
 import com.example.demo.app_service.token.TokenService
 import com.example.demo.app_service.util.ErrorDto
 import com.example.demo.app_service.util.PaginationDto
@@ -33,7 +33,7 @@ class MemoHandler(
 
             memoService.create(userId, memoParam)?.let {
                 return created(URI.create("/api/v1/memos/${it.id}")).contentType(MediaType.APPLICATION_JSON)
-                    .bodyValueAndAwait(it.toDto())
+                    .bodyValueAndAwait(MemoDto.create(it))
             }
 
             badRequest().contentType(MediaType.APPLICATION_JSON)
@@ -54,7 +54,7 @@ class MemoHandler(
 
             val pagination = memoService.getList(userId, PaginationParam(request))
 
-            val memos = pagination.items.map { it.toDto() }
+            val memos = pagination.items.map { MemoDto.create(it) }
 
             ok().contentType(MediaType.APPLICATION_JSON)
                 .bodyValueAndAwait(PaginationDto(pagination, memos))
@@ -75,7 +75,7 @@ class MemoHandler(
 
             memoService.getDetail(userId, memoId)?.let {
                 return ok().contentType(MediaType.APPLICATION_JSON)
-                    .bodyValueAndAwait(it.toDto())
+                    .bodyValueAndAwait(MemoDto.create(it))
             }
 
             notFound().buildAndAwait()
@@ -98,7 +98,7 @@ class MemoHandler(
 
             memoService.update(userId, memoId, memoParam)?.let {
                 return ok().contentType(MediaType.APPLICATION_JSON)
-                    .bodyValueAndAwait(it.toDto())
+                    .bodyValueAndAwait(MemoDto.create(it))
             }
 
             notFound().buildAndAwait()
@@ -117,11 +117,9 @@ class MemoHandler(
             val userId = tokenService.getUserId(request)
             val memoId = UUID.fromString(request.pathVariable("id"))
 
-            memoService.delete(userId, memoId)?.let {
+            memoService.delete(userId, memoId).let {
                 return ok().contentType(MediaType.APPLICATION_JSON).buildAndAwait()
             }
-
-            notFound().buildAndAwait()
 
         } catch (e: Exception) {
             log.error(e.localizedMessage)

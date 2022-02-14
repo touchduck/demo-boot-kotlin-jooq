@@ -61,7 +61,7 @@ class AuthServiceImpl(
         return null
     }
 
-    override fun update(userId: UUID, param: UserSettingParam): UserRecord? {
+    override fun update(userId: UUID, param: UserParam): UserRecord? {
 
         userRepository.findById(userId)?.let {
 

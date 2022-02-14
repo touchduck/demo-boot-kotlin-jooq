@@ -28,7 +28,7 @@ class SecurityConfig(
             .authenticationManager(jwtAuthenticationManager)
             .securityContextRepository(jwtSecurityContextRepository)
             .authorizeExchange()
-            .pathMatchers(HttpMethod.POST, "/api/v1/auth").permitAll()
+            .pathMatchers(HttpMethod.POST, "/api/v1/signup").permitAll()
             .pathMatchers(HttpMethod.POST, "/api/v1/token").permitAll()
             .pathMatchers("/api/v1/**").hasRole("ADMIN")
             .anyExchange().authenticated()

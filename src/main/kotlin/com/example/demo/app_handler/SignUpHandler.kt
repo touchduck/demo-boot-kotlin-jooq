@@ -2,8 +2,6 @@ package com.example.demo.app_handler
 
 import com.example.demo.app_service.auth.AuthService
 import com.example.demo.app_service.auth.SignUpParam
-import com.example.demo.app_service.auth.UserSettingParam
-import com.example.demo.app_service.auth.toAuthDto
 import com.example.demo.app_service.token.TokenService
 import com.example.demo.app_service.util.ErrorDto
 import org.slf4j.LoggerFactory
@@ -14,12 +12,13 @@ import org.springframework.web.reactive.function.server.ServerResponse.*
 import java.net.URI
 
 @Component
-class AuthHandler(
+class SignUpHandler(
     private val tokenService: TokenService,
     private val authService: AuthService,
 ) {
     private val log = LoggerFactory.getLogger(javaClass)
 
+    // 会員登録
     suspend fun create(request: ServerRequest): ServerResponse {
 
         return try {
@@ -36,26 +35,7 @@ class AuthHandler(
             log.info("sign up user: {}", user.username)
 
             created(URI.create("/api/v1/users/${user.id}"))
-                .contentType(MediaType.APPLICATION_JSON)
-                .bodyValueAndAwait(user.toAuthDto())
-
-        } catch (e: Exception) {
-            log.error(e.localizedMessage)
-            badRequest().buildAndAwait()
-        }
-    }
-
-    suspend fun update(request: ServerRequest): ServerResponse {
-
-        return try {
-
-            val userId = tokenService.getUserId(request)
-
-            val userParam = request.awaitBody<UserSettingParam>().validateObj()
-
-            authService.update(userId, userParam)
-
-            notFound().buildAndAwait()
+                .buildAndAwait()
 
         } catch (e: Exception) {
             log.error(e.localizedMessage)

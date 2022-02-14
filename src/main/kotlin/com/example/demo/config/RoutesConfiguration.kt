@@ -1,8 +1,9 @@
 package com.example.demo.config
 
-import com.example.demo.app_handler.AuthHandler
+import com.example.demo.app_handler.SignUpHandler
 import com.example.demo.app_handler.MemoHandler
 import com.example.demo.app_handler.TokenHandler
+import com.example.demo.app_handler.UserHandler
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.reactive.function.server.coRouter
@@ -11,8 +12,8 @@ import org.springframework.web.reactive.function.server.coRouter
 class RoutesConfiguration {
 
     @Bean
-    fun authRoutes(handler: AuthHandler) = coRouter {
-        "/api/v1/auth".nest {
+    fun authRoutes(handler: SignUpHandler) = coRouter {
+        "/api/v1/signup".nest {
             POST("", handler::create)
         }
     }
@@ -21,6 +22,13 @@ class RoutesConfiguration {
     fun tokenRoutes(handler: TokenHandler) = coRouter {
         "/api/v1/token".nest {
             POST("", handler::create)
+        }
+    }
+
+    @Bean
+    fun userRoutes(handler: UserHandler) = coRouter {
+        "/api/v1/token".nest {
+            PUT("/{id}", handler::update)
         }
     }
 
