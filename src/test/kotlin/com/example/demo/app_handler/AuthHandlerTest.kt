@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringWebFluxTest
-class SignUpHandlerTest(@Autowired override val client: WebTestClient, @Autowired override val dsl: DSLContext) :
+class AuthHandlerTest(@Autowired override val client: WebTestClient, @Autowired override val dsl: DSLContext) :
     AuthUtil(client, dsl) {
 
     @BeforeAll
