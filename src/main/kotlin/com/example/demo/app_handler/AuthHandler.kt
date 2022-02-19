@@ -33,8 +33,7 @@ class AuthHandler(
 
             log.info("sign up user: {}", user.username)
 
-            created(URI.create("/api/v1/users/${user.id}"))
-                .buildAndAwait()
+            created(URI.create("/api/v1/users/${user.id}")).buildAndAwait()
 
         } catch (e: Exception) {
             log.error(e.localizedMessage)

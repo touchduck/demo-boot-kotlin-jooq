@@ -51,7 +51,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-jooq") // need jooqGen
     jooqGeneratorRuntime("org.postgresql:postgresql:42.2.19")  // need jooqGen
 
-    runtimeOnly("org.postgresql:postgresql")
+    implementation("org.postgresql:postgresql")
 
     implementation("org.valiktor:valiktor-spring-boot-starter:0.12.0")
     implementation("org.modelmapper:modelmapper:3.0.0")
@@ -135,4 +135,3 @@ jooqGenerator {
         }
     }
 }
-
